@@ -10,6 +10,7 @@ use App\Models\Order;
 use Exception;
 use App\Services\OrderService;
 use App\Http\Resources\OrderDetailsResource;
+use Illuminate\Support\Facades\Auth;
 
 
 class OrderController extends Controller
@@ -24,6 +25,7 @@ class OrderController extends Controller
     public function store(TableOrderRequest $request): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
+            $request->merge(['customer_id' => Auth::user()->id]);
             return new OrderDetailsResource($this->orderService->tableOrderStore($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
