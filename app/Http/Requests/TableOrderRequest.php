@@ -30,7 +30,7 @@ class TableOrderRequest extends FormRequest
     {
         return [
             'dining_table_id'  => ['required', 'numeric'],
-            'customer_id'      => ['required', 'numeric'],
+//            'customer_id'      => ['required', 'numeric'],
             'branch_id'        => ['required', 'numeric'],
             'subtotal'         => ['required', 'numeric'],
             'discount'         => ['nullable', 'numeric'],
