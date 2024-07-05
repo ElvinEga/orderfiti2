@@ -79,9 +79,22 @@
                 <div class="flex flex-wrap gap-3" v-else-if="order.status !== enums.orderStatusEnum.REJECTED &&
                     order.status !== enums.orderStatusEnum.CANCELED
                     ">
+                    <div class="relative">
+                        <select v-model="delivery_boy" @change="selectDeliveryBoy($event)"
+                                class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
+                            <option value="0" disabled selected hidden>{{ $t('label.select_delivery_boy') }}</option>
+                            <option v-for="deliveryBoy in deliveryBoys" :value="deliveryBoy.id">
+                                {{ deliveryBoy.name }}
+                            </option>
+                        </select>
+                        <i
+                            class="lab lab-arrow-down-2 lab-font-size-16 absolute top-1/2 right-3.5 -translate-y-1/2 text-primary"></i>
+                    </div>
+
                     <div class="relative" v-if="!order.token">
                         <TableOrderTokenComponent />
                     </div>
+
 
                     <div v-if="order.transaction === null" class="relative">
                         <select v-model="payment_status" @change="changePaymentStatus($event)"
@@ -332,6 +345,9 @@ export default {
         },
         orderUser: function () {
             return this.$store.getters["tableOrder/orderUser"];
+        },
+        deliveryBoys: function () {
+            return this.$store.getters["deliveryBoy/lists"];
         },
     },
     mounted() {

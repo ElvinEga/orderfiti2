@@ -66,7 +66,7 @@
 
                 <div class="flex flex-wrap gap-3"
                     v-else-if="order.status !== enums.orderStatusEnum.REJECTED && order.status !== enums.orderStatusEnum.CANCELED">
-                    <div class="relative" v-if="order.order_type === enums.orderTypeEnum.DELIVERY">
+                    <div class="relative">
                         <select v-model="delivery_boy" @change="selectDeliveryBoy($event)"
                             class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
                             <option value="0" disabled selected hidden>{{ $t('label.select_delivery_boy') }}</option>
