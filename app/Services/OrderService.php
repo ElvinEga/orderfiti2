@@ -454,6 +454,7 @@ class OrderService
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotPush::dispatch(['order_id' => $this->order->id]);
+                SendOrderDeliveryBoyPush::dispatch(['order_id' => $this->order->id, 'status' => 101]);
             });
             return $this->order;
         } catch (Exception $exception) {
