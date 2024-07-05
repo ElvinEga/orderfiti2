@@ -711,6 +711,16 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::post('/mobile', [TokenStoreController::class, 'deviceToken']);
     });
 
+    Route::prefix('table-order')->name('tableOrder.')->group(function () {
+        Route::get('/', [AdminTableOrderController::class, 'index']);
+        Route::get('/show/{order}', [AdminTableOrderController::class, 'show']);
+//        Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
+//        Route::get('/export', [AdminTableOrderController::class, 'export']);
+        Route::post('/change-status/{order}', [AdminTableOrderController::class, 'changeStatus']);
+        Route::post('/change-payment-status/{order}', [AdminTableOrderController::class, 'changePaymentStatus']);
+        Route::post('/token-create/{order}', [AdminTableOrderController::class, 'tokenCreate']);
+    });
+
     Route::prefix('delivery-boy-order')->name('delivery-boy-order.')->middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [FrontendDeliveryBoyOrderController::class, 'index']);
         Route::get('/show/{order}', [FrontendDeliveryBoyOrderController::class, 'show']);
