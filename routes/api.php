@@ -716,6 +716,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/show/{order}', [AdminTableOrderController::class, 'show']);
 //        Route::delete('/{order}', [AdminTableOrderController::class, 'destroy']);
 //        Route::get('/export', [AdminTableOrderController::class, 'export']);
+        Route::get('/count', [AdminTableOrderController::class, 'orderCount']);
         Route::post('/change-status/{order}', [AdminTableOrderController::class, 'changeStatus']);
         Route::post('/change-payment-status/{order}', [AdminTableOrderController::class, 'changePaymentStatus']);
         Route::post('/token-create/{order}', [AdminTableOrderController::class, 'tokenCreate']);

@@ -560,6 +560,30 @@ class OrderService
     /**
      * @throws Exception
      */
+
+    public function waiterOrderCount(): array
+    {
+        try {
+            $order                              = new Order;
+            $orderCountArray                    = [];
+            $orderCountArray['total_delivered'] = $order->where(
+                ['status' => OrderStatus::DELIVERED]
+            )->count();
+            $orderCountArray['total_returned']  = $order->where(
+                ['status' => OrderStatus::RETURNED]
+            )->count();
+
+            return $orderCountArray;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+
     public function deliveryBoyOrderChangeStatus(Order $order, OrderStatusRequest $request): Order
     {
         try {

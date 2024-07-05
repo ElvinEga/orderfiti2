@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\DeliveryBoyOrderCountResource;
 use Exception;
 use App\Models\Order;
 use App\Exports\OrderExport;
@@ -78,6 +79,15 @@ class TableOrderController extends AdminController
         }
     }
 
+    public function orderCount()
+    {
+        try {
+            return new DeliveryBoyOrderCountResource($this->orderService->waiterOrderCount());
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
     public function tokenCreate(Order $order, TableOrderTokenRequest $request): \Illuminate\Http\Response | OrderDetailsResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
@@ -86,4 +96,5 @@ class TableOrderController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+
 }
