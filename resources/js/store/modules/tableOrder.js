@@ -126,6 +126,16 @@ export const tableOrder = {
                 });
             });
         },
+        selectDeliveryBoy: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.post(`admin/online-order/select-delivery-boy/${payload.id}`,payload).then((res) => {
+                    context.commit('show', res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         reset: function (context) {
             context.commit('reset');
         },
