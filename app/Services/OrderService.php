@@ -449,13 +449,14 @@ class OrderService
 
                 $this->order->order_serial_no = date('dmy') . $this->order->id;
                 $this->order->total_tax       = $totalTax;
+                $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotPush::dispatch(['order_id' => $this->order->id]);
-//                SendOrderDeliveryBoyPush::dispatch(['order_id' => $this->order->id, 'status' => 101]);
-                $this->setRandomDeliveryBoy($this->order);
+                SendOrderDeliveryBoyPush::dispatch(['order_id' => $this->order->id, 'status' => 101]);
+//                $this->setRandomDeliveryBoy($this->order);
             });
             return $this->order;
         } catch (Exception $exception) {
