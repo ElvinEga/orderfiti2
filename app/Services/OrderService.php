@@ -454,7 +454,8 @@ class OrderService
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotPush::dispatch(['order_id' => $this->order->id]);
-                SendOrderDeliveryBoyPush::dispatch(['order_id' => $this->order->id, 'status' => 101]);
+//                SendOrderDeliveryBoyPush::dispatch(['order_id' => $this->order->id, 'status' => 101]);
+                $this->setRandomDeliveryBoy($this->order);
             });
             return $this->order;
         } catch (Exception $exception) {
@@ -741,6 +742,21 @@ class OrderService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
+    public function setRandomDeliveryBoy(Order $order)
+    {
+        try {
+                $order->delivery_boy_id = 4;
+                $order->save();
+                SendOrderDeliveryBoyMail::dispatch(['order_id' => $order->id, 'status' => 101]);
+                SendOrderDeliveryBoySms::dispatch(['order_id' => $order->id, 'status' => 101]);
+                SendOrderDeliveryBoyPush::dispatch(['order_id' => $order->id, 'status' => 101]);
+                return $order;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+        }
+    }
+
 
     /**
      * @throws Exception
