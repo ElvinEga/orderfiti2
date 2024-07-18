@@ -27,6 +27,7 @@ class SimpleDeliveryBoyOrderResource extends JsonResource
                 $this->order_datetime,
                 1
             ) : AppLibrary::date($this->order_datetime),
+            "total_currency_price"                => AppLibrary::currencyAmountFormat($this->total),
             'delivery_time'    => AppLibrary::deliveryTime($this->delivery_time),
             'payment_method'   => $this->payment_method,
             'payment_status'   => $this->payment_status,
@@ -35,8 +36,8 @@ class SimpleDeliveryBoyOrderResource extends JsonResource
             'status'           => $this->status,
             'status_name'      => trans('orderStatus.' . $this->status),
             'reason'           => $this->reason,
-            'customer'         => new UserResource($this->user),
-            'table'            => new UserResource($this->user),
+            'user'             => new UserResource($this->user),
+            'table_name'       => $this->diningTable?->name,
             'order_address'    => new AddressResource($this->address),
         ];
     }
