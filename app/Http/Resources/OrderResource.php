@@ -40,6 +40,7 @@ class OrderResource extends JsonResource
             'status_name'                    => trans('orderStatus.' . $this->status),
             'customer'                       => new UserResource($this->user),
             'delivery_boy'                   => optional(User::find($this->delivery_boy_id))->name,
+            'table_name'                     => $this->diningTable?->name,
             'transaction'                    => new TransactionResource($this->transaction),
         ];
     }
