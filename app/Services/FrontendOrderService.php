@@ -169,11 +169,11 @@ class FrontendOrderService
                     }
                 }
 
-                $user = User::find(Auth::user()->id);
-                if ($user) {
-                    $user->balance = ($user->balance + $totalPrice);
-                    $user->save();
-                }
+//                $user = User::find(Auth::user()->id);
+//                if ($user) {
+//                    $user->balance = ($user->balance + $totalPrice);
+//                    $user->save();
+//                }
 
                 if ($request->coupon_id > 0) {
                     OrderCoupon::create([
