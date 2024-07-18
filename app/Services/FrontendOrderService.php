@@ -109,6 +109,7 @@ class FrontendOrderService
 
                 $i = 0;
                 $totalTax = 0;
+                $totalPrice = 0;
                 $itemsArray = [];
                 $requestItems = json_decode($request->items);
                 $items = Item::get()->pluck('tax_id', 'id');
@@ -140,6 +141,7 @@ class FrontendOrderService
                             'total_price'          => $item->total_price,
                         ];
                         $totalTax = $totalTax + $taxPrice;
+                        $totalPrice = $totalPrice + $item->total_price;
                         $i++;
                     }
                 }
@@ -169,7 +171,7 @@ class FrontendOrderService
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
-                    $user->balance = ($user->balance + $this->frontendOrder->total);
+                    $user->balance = ($user->balance + $totalPrice);
                     $user->save();
                 }
 
