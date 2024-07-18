@@ -30,10 +30,13 @@ class SimpleDeliveryBoyOrderResource extends JsonResource
             'delivery_time'    => AppLibrary::deliveryTime($this->delivery_time),
             'payment_method'   => $this->payment_method,
             'payment_status'   => $this->payment_status,
+            "total_amount_price"=> AppLibrary::flatAmountFormat($this->total),
             'is_advance_order' => $this->is_advance_order,
             'status'           => $this->status,
             'status_name'      => trans('orderStatus.' . $this->status),
             'reason'           => $this->reason,
+            'customer'         => new UserResource($this->user),
+            'table'            => new UserResource($this->user),
             'order_address'    => new AddressResource($this->address),
         ];
     }

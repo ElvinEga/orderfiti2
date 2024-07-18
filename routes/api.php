@@ -49,6 +49,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\PaymentGatewayController;
 use App\Http\Controllers\Admin\AnalyticSectionController;
 use App\Http\Controllers\Admin\DiningTableController;
+use App\Http\Controllers\Admin\ZoneTableController;
 use App\Http\Controllers\Admin\CustomerAddressController;
 use App\Http\Controllers\Admin\EmployeeAddressController;
 use App\Http\Controllers\Admin\EmployeeController;
@@ -93,6 +94,7 @@ use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryContro
 use App\Http\Controllers\Table\OrderController as TableOrderController;
 use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController;
 use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
+use App\Http\Controllers\Table\ZonesController as ZonesController;
 
 
 /*
@@ -609,6 +611,15 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/{diningTable}', [DiningTableController::class, 'destroy']);
         Route::get('/export', [DiningTableController::class, 'export']);
     });
+
+    Route::prefix('zones')->name('zones.')->group(function () {
+        Route::get('/', [ZoneTableController::class, 'index']);
+        Route::get('/show/{diningTable}', [ZoneTableController::class, 'show']);
+        Route::post('/', [ZoneTableController::class, 'store']);
+        Route::match(['post', 'put', 'patch'], '/{diningTable}', [ZoneTableController::class, 'update']);
+        Route::delete('/{diningTable}', [ZoneTableController::class, 'destroy']);
+//        Route::get('/export', [ZoneTableController::class, 'export']);
+    });
 });
 
 Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey', 'localization'])->group(function () {
@@ -742,8 +753,18 @@ Route::prefix('table')->name('table.')->middleware(['installed', 'apiKey', 'loca
         Route::get('/show/{frontendDiningTable:slug}', [TableDiningTableController::class, 'show']);
     });
 
+
     Route::prefix('dining-order')->name('dining-order.')->group(function () {
         Route::get('/show/{frontendOrder}', [TableOrderController::class, 'show']);
         Route::post('/', [TableOrderController::class, 'store']);
     });
+});
+
+Route::prefix('zones')->name('zones.')->middleware(['installed', 'apiKey', 'localization'])->group(function () {
+
+    Route::prefix('zones')->name('zones.')->group(function () {
+        Route::get('/', [ZonesController::class, 'index']);
+        Route::get('/show/{frontendDiningTable:slug}', [ZonesController::class, 'show']);
+    });
+
 });

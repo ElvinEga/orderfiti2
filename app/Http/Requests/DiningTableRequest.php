@@ -36,6 +36,7 @@ class DiningTableRequest extends FormRequest
             ],
             'size'      => ['numeric'],
             'branch_id' => ['required', 'numeric'],
+            'zone_id'   => ['required', 'numeric'],
             'status'    => ['required', 'numeric', 'max:24'],
         ];
     }

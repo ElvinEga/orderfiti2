@@ -75,6 +75,7 @@
                             <th class="db-table-head-th">{{ $t("label.name") }}</th>
                             <th class="db-table-head-th">{{ $t("label.email") }}</th>
                             <th class="db-table-head-th">{{ $t("label.phone") }}</th>
+                            <th class="db-table-head-th">{{ $t("label.balance") }}</th>
                             <th class="db-table-head-th">{{ $t("label.status") }}</th>
                             <th class="db-table-head-th hidden-print"
                                 v-if="permissionChecker('customers_show') || permissionChecker('customers_edit') || permissionChecker('customers_delete')">
@@ -91,6 +92,9 @@
                             </td>
                             <td class="db-table-body-td">
                                 {{ customer.country_code + '' + customer.phone }}
+                            </td>
+                            <td class="db-table-body-td">
+                                {{ customer.balance }}
                             </td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(customer.status)">

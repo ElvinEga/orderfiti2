@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 
+use App\Libraries\AppLibrary;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerResource extends JsonResource
@@ -25,6 +26,7 @@ class CustomerResource extends JsonResource
             "branch_id"    => $this->branch_id,
             "phone"        => $this->phone === null ? '' : $this->phone,
             "status"       => $this->status,
+            "balance"      => AppLibrary::flatAmountFormat($this->balance),
             "image"        => $this->image,
             "country_code" => $this->country_code,
             "messages"     => $this->messages->count(),

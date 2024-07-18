@@ -28,6 +28,7 @@ import creditBalanceReportRoutes from "./modules/creditBalanceReportRoutes";
 import tableOrderRoutes from "./modules/tableOrderRoutes";
 import adminTableOrderRoutes from "./modules/adminTableOrderRoutes";
 import diningTableRoutes from "./modules/diningTableRoutes";
+import zonesRoutes from "./modules/zonesRoutes";
 import subscriberRoutes from "./modules/subscriberRoutes";
 
 const baseRoutes = [
@@ -86,6 +87,7 @@ const routes = baseRoutes.concat(
     tableOrderRoutes,
     adminTableOrderRoutes,
     diningTableRoutes,
+    zonesRoutes,
     subscriberRoutes
 );
 

@@ -10,7 +10,7 @@ class DiningTable extends Model
 {
     use HasFactory;
     protected $table = "dining_tables";
-    protected $fillable = ['name', 'slug', 'size', 'status', 'branch_id', 'qr_code'];
+    protected $fillable = ['name', 'slug', 'size', 'status', 'branch_id', 'zone_id', 'qr_code'];
     protected $casts = [
         'id'        => 'integer',
         'name'      => 'string',
@@ -18,6 +18,7 @@ class DiningTable extends Model
         'qr_code'   => 'string',
         'size'      => 'integer',
         'branch_id' => 'integer',
+        'zone_id' => 'integer',
         'status'    => 'integer',
     ];
 

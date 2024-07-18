@@ -11,6 +11,7 @@
             <div class="drawer-body">
                 <form @submit.prevent="save">
                     <div class="form-row">
+
                         <div class="form-col-12 sm:form-col-6">
                             <label for="name" class="db-field-title required">{{ $t("label.name") }}</label>
                             <input v-model="props.form.name" v-bind:class="errors.name ? 'invalid' : ''" type="text"
@@ -23,6 +24,15 @@
                             <input v-model="props.form.size" v-bind:class="errors.size ? 'invalid' : ''" type="number"
                                 id="size" class="db-field-control">
                             <small class="db-field-alert" v-if="errors.size">{{ errors.size[0] }}</small>
+                        </div>
+
+                        <div class="col-12 sm:col-6">
+                            <label for="user_id" class="db-field-title">{{ $t("label.zones") }}</label>
+                            <vue-select class="db-field-control f-b-custom-select" id="user_id"
+                                        v-bind:class="errors.user_id ? 'invalid' : ''" v-model="props.form.zone_id" :options="zones"
+                                        label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                                        placeholder="--" search-placeholder="--" />
+                            <small class="db-field-alert" v-if="errors.user_id">{{ errors.zone_id[0] }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
@@ -98,6 +108,9 @@ export default {
         },
         branches: function () {
             return this.$store.getters['branch/lists'];
+        },
+        zones: function () {
+            return this.$store.getters['zones/lists'];
         }
     },
     mounted() {
@@ -112,6 +125,11 @@ export default {
         } catch (err) {
             this.loading.isActive = false;
         }
+        this.$store.dispatch('zones/lists', {
+            order_column: 'id',
+            order_type: 'asc',
+            status: statusEnum.ACTIVE
+        });
     },
 
     methods: {
@@ -122,6 +140,7 @@ export default {
             this.$props.props.form = {
                 name: "",
                 size: "",
+                zone_id: null,
                 status: statusEnum.ACTIVE
             }
         },
@@ -136,6 +155,7 @@ export default {
                     alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.dining_tables'));
                     this.props.form.name = "";
                     this.props.form.size = "";
+                    this.props.form.zone_id = null;
                     this.props.form.branch_id = this.props.form.branch_id;
                     this.props.form.status = statusEnum.ACTIVE;
                     this.errors = {};

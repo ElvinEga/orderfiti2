@@ -72,7 +72,7 @@ class Credit extends PaymentAbstract
                     $capturePaymentNotification = DB::table('capture_payment_notifications')->where([
                         ['token', $request->token]
                     ]);
-                    $token                      = $capturePaymentNotification->first();
+                    $token  = $capturePaymentNotification->first();
                     if (!blank($token) && $order->id == $token->order_id) {
                         $user = User::find($order->user_id);
                         if ($user) {

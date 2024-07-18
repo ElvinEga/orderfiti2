@@ -22,6 +22,7 @@ class DiningTableService
         'name',
         'size',
         'branch_id',
+        'zone_id',
         'status'
     ];
 
@@ -79,7 +80,7 @@ class DiningTableService
     public function store(DiningTableRequest $request)
     {
         try {
-            $branch      = Branch::find($request->branch_id);           
+            $branch      = Branch::find($request->branch_id);
             $branch_name = $branch ? $branch->name : "";
 
             $filename = Str::random(10) . '.png';
@@ -103,7 +104,7 @@ class DiningTableService
     public function update(DiningTableRequest $request, DiningTable $diningTable)
     {
         try {
-            $branch      = Branch::find($request->branch_id);           
+            $branch      = Branch::find($request->branch_id);
             $branch_name = $branch ? $branch->name : "";
 
             $filename = Str::random(10) . '.png';

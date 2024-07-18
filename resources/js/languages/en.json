@@ -77,10 +77,13 @@
         "setup": "Setup",
         "home": "Home",
         "dining_tables": "Serving Spots",
+        "zones": "Zones",
         "table_orders": "Spots Orders",
         "subscribers": "Regulars"
     },
     "label": {
+        "zone": "Zones",
+        "zones": "Zones",
         "previous": "Previous",
         "next": "Next",
         "default": "Default",
@@ -322,7 +325,7 @@
         "paid_status": "Paid Status",
         "from_date": "From Date",
         "to_date": "To Date",
-        "accept": "Accepted",
+        "accept": "Waiting for Payment",
         "date_range": "Date Range",
         "my_cart": "My Cart",
         "instruction": "Instruction",

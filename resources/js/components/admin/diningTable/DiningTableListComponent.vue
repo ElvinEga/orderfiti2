@@ -70,6 +70,7 @@
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">{{ $t('label.name') }}</th>
                             <th class="db-table-head-th">{{ $t('label.size') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.zone') }}</th>
                             <th class="db-table-head-th">{{ $t('label.status') }}</th>
                             <th class="db-table-head-th hidden-print"
                                 v-if="permissionChecker('dining_tables_show') || permissionChecker('dining_tables_edit') || permissionChecker('dining_tables_delete')">
@@ -81,6 +82,7 @@
                         <tr class="db-table-body-tr" v-for="diningTable in diningTables" :key="diningTable">
                             <td class="db-table-body-td">{{ diningTable.name }}</td>
                             <td class="db-table-body-td">{{ diningTable.size }}</td>
+                            <td class="db-table-body-td">{{ diningTable.zone_id }}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(diningTable.status)">
                                     {{ enums.statusEnumArray[diningTable.status] }}
@@ -198,6 +200,9 @@ export default {
         },
         paginationPage: function () {
             return this.$store.getters['diningTable/page'];
+        },
+        zones: function () {
+            return this.$store.getters['zones/lists'];
         }
     },
     mounted() {

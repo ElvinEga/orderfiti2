@@ -64,6 +64,7 @@ import { frontendCountryCode } from './modules/frontend/frontendCountryCode';
 import { frontendAddress } from './modules/frontend/frontendAddress';
 import { message } from './modules/message';
 import {diningTable} from "./modules/diningTable";
+import {zones} from "./modules/zones";
 import {frontendTimeSlot} from "./modules/frontend/frontendTimeSlot";
 import {frontendItem} from "./modules/frontend/frontendItem";
 import { frontendOffer } from './modules/frontend/frontendOffer';
@@ -178,6 +179,7 @@ export default new createStore({
         frontendMessage,
         posCategory,
         diningTable,
+        zones,
         tableItemCategory,
         tableCart,
         tableDiningTable,

@@ -4,7 +4,9 @@ namespace App\Http\Resources;
 
 
 use App\Libraries\AppLibrary;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class OrderResource extends JsonResource
 {
@@ -37,6 +39,7 @@ class OrderResource extends JsonResource
             'is_advance_order'               => $this->is_advance_order,
             'status_name'                    => trans('orderStatus.' . $this->status),
             'customer'                       => new UserResource($this->user),
+            'delivery_boy'                   => User::find($this->delivery_boy_id)->name,
             'transaction'                    => new TransactionResource($this->transaction),
         ];
     }

@@ -22,6 +22,7 @@ class DiningTableResource extends JsonResource
             "size"           => $this->size,
             "qr_code"        => asset($this->qr_code),
             "branch_id"      => $this->branch_id,
+            "zone_id"        => $this->zone_id,
             "branch_name"    => optional($this->branch)->name,
             "status"         => $this->status,
             "qr"             => $this->qr,

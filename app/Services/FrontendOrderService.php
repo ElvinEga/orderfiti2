@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Events\SendOrderGotMail;
 use App\Events\SendOrderGotSms;
+use App\Models\User;
 use Exception;
 use App\Models\Tax;
 use App\Models\Item;
@@ -164,6 +165,12 @@ class FrontendOrderService
                             'longitude' => $address->longitude
                         ]);
                     }
+                }
+
+                $user = User::find(Auth::user()->id);
+                if ($user) {
+                    $user->balance = ($user->balance + $this->frontendOrder->total);
+                    $user->save();
                 }
 
                 if ($request->coupon_id > 0) {
