@@ -154,6 +154,12 @@ class FrontendOrderService
                 $this->frontendOrder->total_tax = $totalTax;
                 $this->frontendOrder->save();
 
+                $user = User::find(Auth::user()->id);
+                if ($user) {
+                    $user->balance = ($user->balance + $totalPrice);
+                    $user->save();
+                }
+
                 if ($request->address_id) {
                     $address = Address::find($request->address_id);
                     if ($address) {
@@ -169,11 +175,6 @@ class FrontendOrderService
                     }
                 }
 
-//                $user = User::find(Auth::user()->id);
-//                if ($user) {
-//                    $user->balance = ($user->balance + $totalPrice);
-//                    $user->save();
-//                }
 
                 if ($request->coupon_id > 0) {
                     OrderCoupon::create([

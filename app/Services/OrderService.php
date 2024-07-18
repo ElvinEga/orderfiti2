@@ -408,6 +408,7 @@ class OrderService
 
                 $i            = 0;
                 $totalTax     = 0;
+                $totalPrice = 0;
                 $itemsArray   = [];
                 $requestItems = json_decode($request->items);
                 $items        = Item::get()->pluck('tax_id', 'id');
@@ -439,6 +440,7 @@ class OrderService
                             'total_price'          => $item->total_price,
                         ];
                         $totalTax       = $totalTax + $taxPrice;
+                        $totalPrice = $totalPrice + $item->total_price;
                         $i++;
                     }
                 }
@@ -447,10 +449,18 @@ class OrderService
                     OrderItem::insert($itemsArray);
                 }
 
+
+
                 $this->order->order_serial_no = date('dmy') . $this->order->id;
                 $this->order->total_tax       = $totalTax;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
+
+                $user = User::find(Auth::user()->id);
+                if ($user) {
+                    $user->balance = ($user->balance + $totalPrice);
+                    $user->save();
+                }
 
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
