@@ -82,7 +82,7 @@
         "subscribers": "Regulars"
     },
     "label": {
-        "zone": "Zones",
+        "zone": "Zone",
         "zones": "Zones",
         "previous": "Previous",
         "next": "Next",
@@ -560,7 +560,7 @@
         "print_invoice": "Print Invoice",
         "excel": "XLS",
         "reset": "Reset",
-        "accept": "Accept",
+        "accept": "Accepted",
         "permissions": "Permissions",
         "upload_new_photo": "Upload New Photo",
         "add_administrator": "Add Administrator",
