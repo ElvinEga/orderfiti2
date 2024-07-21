@@ -404,8 +404,10 @@ class OrderService
                     ->orderBy('created_at', 'desc')
                     ->first();
 
+                $previousTotal = 0;
                 if ($existingOrder) {
                     $this->order = $existingOrder;
+                    $previousTotal = $this->order->total_price ?? 0;
                 } else {
                     $this->order = FrontendOrder::create(
                         $request->validated() + [
@@ -465,7 +467,8 @@ class OrderService
                 if (!$existingOrder) {
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
                 }
-                $this->order->total_tax       = $totalTax;
+                $this->order->total_tax += $totalTax;
+                $this->order->total = $previousTotal + $totalPrice;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
