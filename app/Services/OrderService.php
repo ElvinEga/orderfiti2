@@ -405,9 +405,11 @@ class OrderService
                     ->first();
 
                 $previousTotal = 0;
+                $previousSubTotal = 0;
                 if ($existingOrder) {
                     $this->order = $existingOrder;
-                    $previousTotal = $this->order->total_price ?? 0;
+                    $previousTotal = $this->order->total ?? 0;
+                    $previousSubTotal = $this->order->subtotal ?? 0;
                 } else {
                     $this->order = FrontendOrder::create(
                         $request->validated() + [
@@ -469,6 +471,7 @@ class OrderService
                 }
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $previousTotal + $totalPrice;
+                $this->order->subtotal = $previousSubTotal + $totalPrice;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
