@@ -424,6 +424,7 @@ class OrderService
                 $i            = 0;
                 $totalTax     = 0;
                 $totalPrice = 0;
+                $newSubtotal = $request->input('subtotal', 0);
                 $itemsArray   = [];
                 $requestItems = json_decode($request->items);
                 $items        = Item::get()->pluck('tax_id', 'id');
@@ -471,7 +472,7 @@ class OrderService
                 }
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $previousTotal + $totalPrice;
-                $this->order->subtotal = $previousSubTotal + $totalPrice;
+                $this->order->subtotal = $previousSubTotal + $newSubtotal;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
