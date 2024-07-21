@@ -470,15 +470,17 @@ class OrderService
                 if (!$existingOrder) {
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
                 }
+                $totalCredit = $previousTotal + $totalPrice;
                 $this->order->total_tax += $totalTax;
-                $this->order->total = $previousTotal + $totalPrice;
+                $this->order->total = $totalCredit;
                 $this->order->subtotal = $previousSubTotal + $newSubtotal;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
-                    $user->balance = ($user->balance + $totalPrice);
+//                    $user->balance = ($user->balance + $totalPrice);
+                    $user->balance = $totalCredit;
                     $user->save();
                 }
 
