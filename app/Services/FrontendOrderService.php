@@ -98,14 +98,24 @@ class FrontendOrderService
     {
         try {
             DB::transaction(function () use ($request) {
-                $this->frontendOrder = FrontendOrder::create(
-                    $request->validated() + [
-                        'user_id'          => Auth::user()->id,
-                        'status'           => OrderStatus::PENDING,
-                        'order_datetime'   => date('Y-m-d H:i:s'),
-                        'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
-                    ]
-                );
+                $existingOrder = FrontendOrder::where('user_id', Auth::user()->id)
+                    ->where('created_at', '>=', now()->subHours(12))
+                    ->where('payment_status', '!=', 5)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+                if ($existingOrder) {
+                    $this->frontendOrder = $existingOrder;
+                } else {
+                    $this->frontendOrder = FrontendOrder::create(
+                        $request->validated() + [
+                            'user_id'          => Auth::user()->id,
+                            'status'           => OrderStatus::PENDING,
+                            'order_datetime'   => date('Y-m-d H:i:s'),
+                            'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
+                        ]
+                    );
+                }
 
                 $i = 0;
                 $totalTax = 0;
@@ -150,8 +160,10 @@ class FrontendOrderService
                     OrderItem::insert($itemsArray);
                 }
 
-                $this->frontendOrder->order_serial_no = date('dmy') . $this->frontendOrder->id;
-                $this->frontendOrder->total_tax = $totalTax;
+                if (!$existingOrder) {
+                    $this->frontendOrder->order_serial_no = date('dmy') . $this->frontendOrder->id;
+                }
+                $this->frontendOrder->total_tax += $totalTax;
                 $this->frontendOrder->save();
 
                 $user = User::find(Auth::user()->id);
