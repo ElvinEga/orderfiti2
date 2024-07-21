@@ -243,7 +243,7 @@ class FrontendOrderService
                     ->first();
 
                 if ($existingOrder) {
-                    return $existingOrder;
+                    return $existingOrder->toArray();
                 }
 
                 return [];
