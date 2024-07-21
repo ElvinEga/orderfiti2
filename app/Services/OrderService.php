@@ -397,14 +397,25 @@ class OrderService
     {
         try {
             DB::transaction(function () use ($request) {
-                $this->order = FrontendOrder::create(
-                    $request->validated() + [
-                        'user_id'          => $request->customer_id,
-                        'status'           => OrderStatus::ACCEPT,
-                        'order_datetime'   => date('Y-m-d H:i:s'),
-                        'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
-                    ]
-                );
+                // Check for existing order in the last 12 hours with payment_status not 5
+                $existingOrder = FrontendOrder::where('user_id', $request->customer_id)
+                    ->where('created_at', '>=', now()->subHours(12))
+                    ->where('payment_status', '!=', 5)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+                if ($existingOrder) {
+                    $this->order = $existingOrder;
+                } else {
+                    $this->order = FrontendOrder::create(
+                        $request->validated() + [
+                            'user_id'          => $request->customer_id,
+                            'status'           => OrderStatus::ACCEPT,
+                            'order_datetime'   => date('Y-m-d H:i:s'),
+                            'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
+                        ]
+                    );
+                }
 
                 $i            = 0;
                 $totalTax     = 0;
@@ -451,7 +462,9 @@ class OrderService
 
 
 
-                $this->order->order_serial_no = date('dmy') . $this->order->id;
+                if (!$existingOrder) {
+                    $this->order->order_serial_no = date('dmy') . $this->order->id;
+                }
                 $this->order->total_tax       = $totalTax;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
