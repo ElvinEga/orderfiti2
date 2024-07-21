@@ -666,6 +666,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/show/{frontendOrder}', [FrontendOrderController::class, 'show']);
         Route::post('/', [FrontendOrderController::class, 'store']);
         Route::post('/change-status/{frontendOrder}', [FrontendOrderController::class, 'changeStatus']);
+        Route::get('/unpaid', [FrontendOrderController::class, 'unpaid']);
     });
 
     Route::prefix('offer')->name('offer.')->group(function () {
