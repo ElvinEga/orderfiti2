@@ -76,10 +76,10 @@ class OrderController extends Controller
         }
     }
 
-    public function deliveryChangeStatus(Order $order, OrderStatusRequest $request): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function deliveryChangeStatus(FrontendOrder $frontendOrder, OrderStatusRequest $request): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return new OrderDetailsResource($this->frontendOrderService->deliveryChangeStatus($order, $request));
+            return new OrderDetailsResource($this->frontendOrderService->deliveryChangeStatus($frontendOrder, $request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

@@ -286,21 +286,19 @@ class FrontendOrderService
         }
     }
 
-    public function deliveryChangeStatus(Order $order, OrderStatusRequest $request): Order
+    public function deliveryChangeStatus(FrontendOrder $frontendOrder, OrderStatusRequest $request): FrontendOrder
     {
         try {
 //            SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
 //            SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
 //            SendOrderPush::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
-//            if ($order->user_id == Auth::user()->id) {
-//                $order->payment_status = $request->payment_status;
-//                $order->save();
-//                return $order;
-//            }
-            $order->user_id = Auth::user()->id;
-            $order->status = OrderStatus::DELIVERED;
-            $order->save();
-            return $order;
+            if ($frontendOrder->user_id == Auth::user()->id) {
+                $frontendOrder->status = OrderStatus::DELIVERED;
+                $frontendOrder->save();
+                return $frontendOrder;
+            }
+
+            return $frontendOrder;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
