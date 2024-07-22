@@ -54,7 +54,14 @@ class OrderController extends Controller
     public function unpaid(): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return new OrderDetailsResource($this->frontendOrderService->showUnpaidOrder());
+//            return new OrderDetailsResource($this->frontendOrderService->showUnpaidOrder());
+            $order = $this->frontendOrderService->showUnpaidOrder();
+
+            if ($order) {
+                return new OrderDetailsResource($order);
+            } else {
+                return response(['status' => false, 'message' => 'No unpaid order found'], 404);
+            }
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

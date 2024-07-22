@@ -234,24 +234,24 @@ class FrontendOrderService
      * @throws Exception
      */
 
-    public function showUnpaidOrder(): FrontendOrder|array
+    public function showUnpaidOrder(): FrontendOrder|null
     {
         try {
                 // Check if there is any order within the last 12 hours with payment_status not 5
                 $existingOrder = FrontendOrder::where('order_type', "!=", OrderType::POS)
 //                    ->where('user_id', auth()->user()->id)
-                    ->where('user_id', 15)
+                    ->where('user_id', 6)
                     ->where('created_at', '>=', now()->subHours(12))
                     ->where('payment_status', '!=', 5)
                     ->orderBy('created_at', 'desc')
                     ->first();
 
-                if ($existingOrder) {
-                    return [];
-//                    return $existingOrder->toArray();
-                }
+//                if ($existingOrder) {
+//                    return $existingOrder;
+////                    return $existingOrder->toArray();
+//                }
 
-                return [];
+                return $existingOrder;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
