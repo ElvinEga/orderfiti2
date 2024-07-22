@@ -292,6 +292,12 @@ class FrontendOrderService
 //            SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
 //            SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
 //            SendOrderPush::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
+//            if ($order->user_id == Auth::user()->id) {
+//                $order->payment_status = $request->payment_status;
+//                $order->save();
+//                return $order;
+//            }
+            $order->user_id = Auth::user()->id;
             $order->status = OrderStatus::DELIVERED;
             $order->save();
             return $order;
