@@ -234,7 +234,7 @@ class FrontendOrderService
      * @throws Exception
      */
 
-    public function showUnpaidOrder(): FrontendOrder|array
+    public function showUnpaidOrder(): array
     {
         try {
                 // Check if there is any order within the last 12 hours with payment_status not 5
@@ -253,8 +253,8 @@ class FrontendOrderService
                 ->first();
 
                 if ($existingOrder) {
-                    return $existingOrder;
-//                    return $existingOrder->toArray();
+//                    return $existingOrder;
+                    return $existingOrder->toArray();
                 }
 
                 return [];
