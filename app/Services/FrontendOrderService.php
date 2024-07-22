@@ -3,8 +3,11 @@
 namespace App\Services;
 
 
+use App\Enums\PaymentStatus;
 use App\Events\SendOrderGotMail;
 use App\Events\SendOrderGotSms;
+use App\Models\Order;
+use App\Models\Transaction;
 use App\Models\User;
 use Exception;
 use App\Models\Tax;
@@ -236,14 +239,16 @@ class FrontendOrderService
         try {
                 // Check if there is any order within the last 12 hours with payment_status not 5
                 $existingOrder = FrontendOrder::where('order_type', "!=", OrderType::POS)
-                    ->where('user_id', auth()->user()->id)
+//                    ->where('user_id', auth()->user()->id)
+                    ->where('user_id', 5)
                     ->where('created_at', '>=', now()->subHours(12))
                     ->where('payment_status', '!=', 5)
                     ->orderBy('created_at', 'desc')
                     ->first();
 
                 if ($existingOrder) {
-                    return $existingOrder->toArray();
+                    return $existingOrder;
+//                    return $existingOrder->toArray();
                 }
 
                 return [];
@@ -286,4 +291,21 @@ class FrontendOrderService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
+    public function deliveryChangeStatus(Order $order, OrderStatusRequest $request): Order
+    {
+        try {
+//            SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
+//            SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
+            SendOrderPush::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
+            $order->status = OrderStatus::DELIVERED;
+            $order->save();
+            return $order;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
 }
+

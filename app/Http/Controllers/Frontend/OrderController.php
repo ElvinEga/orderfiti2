@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 
+use App\Models\Order;
 use Exception;
 use App\Models\FrontendOrder;
 use App\Http\Requests\OrderRequest;
@@ -63,6 +64,15 @@ class OrderController extends Controller
     {
         try {
             return new OrderDetailsResource($this->frontendOrderService->changeStatus($frontendOrder, $request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
+    public function deliveryChangeStatus(Order $order, OrderStatusRequest $request): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    {
+        try {
+            return new OrderDetailsResource($this->frontendOrderService->deliveryChangeStatus($order, $request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

@@ -23,6 +23,11 @@ class PaymentService
         }
         $order->payment_status = PaymentStatus::PAID;
         $order->save();
+        $user = User::find($order->user_id);
+        if ($user) {
+            $user->balance = 0;
+            $user->save();
+        }
         return $transaction;
     }
 

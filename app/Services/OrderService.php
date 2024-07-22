@@ -626,6 +626,12 @@ class OrderService
 
             if (!$transaction && $order->payment_status == PaymentStatus::UNPAID) {
                 $order->payment_status = PaymentStatus::PAID;
+                $user = User::find($order->user_id);
+                if ($user) {
+                    $user->balance = 0;
+                    $user->save();
+                }
+
             }
             SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
