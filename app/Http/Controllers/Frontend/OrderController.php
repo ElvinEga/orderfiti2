@@ -51,10 +51,10 @@ class OrderController extends Controller
         }
     }
 
-    public function unpaid(): \Illuminate\Http\Response|FrontendOrder|array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
+    public function unpaid(): \Illuminate\Http\Response|OrderDetailsResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return  $this->frontendOrderService->showUnpaidOrder();
+            return new OrderDetailsResource($this->frontendOrderService->showUnpaidOrder());
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
