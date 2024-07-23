@@ -267,6 +267,7 @@ class OrderService
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
+                            'order_datetime'       => date('Y-m-d H:i:s'),
                         ];
                         $totalTax       = $totalTax + $taxPrice;
                         $i++;
@@ -366,6 +367,7 @@ class OrderService
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
+                            'order_datetime'       => date('Y-m-d H:i:s'),
                         ];
                         $totalTax       = $totalTax + $taxPrice;
                         $i++;
@@ -454,6 +456,7 @@ class OrderService
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
+                            'order_datetime'       => date('Y-m-d H:i:s'),
                         ];
                         $totalTax       = $totalTax + $taxPrice;
                         $totalPrice = $totalPrice + $item->total_price;
