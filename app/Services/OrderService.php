@@ -633,11 +633,12 @@ class OrderService
                 }
 
             }
+            $order->status = OrderStatus::DELIVERED;
+            $order->save();
+
             SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderPush::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
-            $order->status = OrderStatus::DELIVERED;
-            $order->save();
             return $order;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
