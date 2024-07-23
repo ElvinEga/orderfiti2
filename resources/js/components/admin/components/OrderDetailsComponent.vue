@@ -77,10 +77,10 @@
                                 <h3
                                     class="absolute top-5 -left-3 text-sm w-[26px] h-[26px] leading-[26px] text-center rounded-full text-white bg-heading">
                                     {{ item.quantity }}</h3>
-                                <img class="w-16 h-16 rounded-lg flex-shrink-0" :src="item.item_image" alt="thumbnail">
+                                <img class="w-32 h-32 rounded-lg flex-shrink-0" :src="item.item_image" alt="thumbnail">
                                 <div class="w-full">
                                     <a href="#"
-                                        class="text-sm font-medium capitalize transition text-heading hover:underline">{{
+                                        class="text-lg font-medium capitalize transition text-heading hover:underline">{{
                                             item.item_name
                                         }}</a>
                                     <p v-if="item.item_variations.length > 0" class="capitalize text-xs mb-1.5">
@@ -94,7 +94,9 @@
                                         </span>
                                     </p>
 
-                                    <h3 class="text-xs font-semibold">{{ item.total_currency_price }}</h3>
+                                    <h3 class="text-lg font-semibold">{{ item.total_currency_price }}</h3>
+
+                                    <h3 class="text-sm font-semibold text-gray-500 mt-3">{{ item.order_datetime }}</h3>
                                 </div>
                             </div>
                             <ul class="flex flex-col gap-1.5 mt-2">
