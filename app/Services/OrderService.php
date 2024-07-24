@@ -666,31 +666,24 @@ class OrderService
                 ['order_id', $order->id]
             ]);
             $capturePaymentNotification?->delete();
+
             $token = rand(111111111, 999999999);
             CapturePaymentNotification::create([
                 'order_id'   => $order->id,
                 'token'      => $token,
                 'created_at' => now()
             ]);
-
-            DB::transaction(function () use ($token, $order) {
-                    $capturePaymentNotification = DB::table('capture_payment_notifications')->where([
-                        ['token', $token]
-                    ]);
                     if (!blank($token)) {
                         $user = User::find($order->user_id);
                         if ($user) {
                             $user->balance = ($user->balance - $order->total);
                             $user->save();
                             $paymentService = new PaymentService();
-                            $paymentService -> payment($order, 'credit', $token->token);
-                            $capturePaymentNotification->delete();
-                            $this->response = true;
+                            $paymentService -> payment($order, 'credit', $token);
                         }
                     }
-            });
-            $order->payment_status = PaymentStatus::PAID;
-            $order->save();
+//            $order->payment_status = PaymentStatus::PAID;
+//            $order->save();
 
             return $order;
         } catch (Exception $exception) {
