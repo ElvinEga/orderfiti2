@@ -297,10 +297,9 @@ class FrontendOrderService
             if ($frontendOrder->user_id == Auth::user()->id) {
                 $frontendOrder->status = OrderStatus::DELIVERED;
                 $frontendOrder->save();
+                $frontendOrder->orderItems()->update(['status' => OrderStatus::DELIVERED]);
                 return $frontendOrder;
             }
-
-            $frontendOrder->orderItems()->update(['status' => OrderStatus::DELIVERED]);
 
             return $frontendOrder;
         } catch (Exception $exception) {
