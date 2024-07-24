@@ -740,6 +740,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/show/{order}', [FrontendDeliveryBoyOrderController::class, 'show']);
         Route::get('/count', [FrontendDeliveryBoyOrderController::class, 'orderCount']);
         Route::post('/change-status/{order}', [FrontendDeliveryBoyOrderController::class, 'deliveryBoyOrderChangeStatus']);
+        Route::post('/payment/{order}', [FrontendDeliveryBoyOrderController::class, 'deliveryBoyOrderPayment']);
     });
 });
 

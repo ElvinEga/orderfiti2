@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CapturePaymentNotification;
 use Exception;
 use App\Models\Tax;
 use App\Models\Item;
@@ -646,6 +647,51 @@ class OrderService
             SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderPush::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
+            return $order;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+
+
+    public function deliveryBoyOrderPayment(Order $order, OrderStatusRequest $request): Order
+    {
+        try {
+            $capturePaymentNotification = DB::table('capture_payment_notifications')->where([
+                ['order_id', $order->id]
+            ]);
+            $capturePaymentNotification?->delete();
+            $token = rand(111111111, 999999999);
+            CapturePaymentNotification::create([
+                'order_id'   => $order->id,
+                'token'      => $token,
+                'created_at' => now()
+            ]);
+
+            DB::transaction(function () use ($token, $order) {
+                    $capturePaymentNotification = DB::table('capture_payment_notifications')->where([
+                        ['token', $token]
+                    ]);
+                    if (!blank($token)) {
+                        $user = User::find($order->user_id);
+                        if ($user) {
+                            $user->balance = ($user->balance - $order->total);
+                            $user->save();
+                            $paymentService = new PaymentService();
+                            $paymentService -> payment($order, 'credit', $token->token);
+                            $capturePaymentNotification->delete();
+                            $this->response = true;
+                        }
+                    }
+            });
+            $order->payment_status = PaymentStatus::PAID;
+            $order->save();
+
             return $order;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());

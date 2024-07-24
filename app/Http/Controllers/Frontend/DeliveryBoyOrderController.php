@@ -57,4 +57,13 @@ class DeliveryBoyOrderController extends Controller
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+
+    public function deliveryBoyOrderPayment(Order $order, OrderStatusRequest $request)
+    {
+        try {
+            return new OrderDetailsResource($this->orderService->deliveryBoyOrderPayment($order, $request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
 }
