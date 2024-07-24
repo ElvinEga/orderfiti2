@@ -153,6 +153,7 @@ class FrontendOrderService
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                             'order_datetime'       => date('Y-m-d H:i:s'),
+                            'status'               => OrderStatus::PENDING
                         ];
                         $totalTax = $totalTax + $taxPrice;
                         $totalPrice = $totalPrice + $item->total_price;
@@ -298,6 +299,8 @@ class FrontendOrderService
                 $frontendOrder->save();
                 return $frontendOrder;
             }
+
+            $frontendOrder->orderItems()->update(['status' => OrderStatus::DELIVERED]);
 
             return $frontendOrder;
         } catch (Exception $exception) {

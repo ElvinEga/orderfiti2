@@ -32,6 +32,7 @@ class OrderItem extends Model
         'order_datetime',
         'editor_type',
         'editor_id',
+        'status',
         'created_at',
         'updated_at'
     ];
@@ -58,6 +59,7 @@ class OrderItem extends Model
         'order_datetime'       => 'datetime',
         'editor_type'          => 'string',
         'editor_id'            => 'integer',
+        'status'               => 'integer',
         'created_at'           => 'datetime',
         'updated_at'           => 'datetime'
     ];

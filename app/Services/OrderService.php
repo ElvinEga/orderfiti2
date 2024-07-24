@@ -457,6 +457,7 @@ class OrderService
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                             'order_datetime'       => date('Y-m-d H:i:s'),
+                            'status'               => OrderStatus::PENDING,
                         ];
                         $totalTax       = $totalTax + $taxPrice;
                         $totalPrice = $totalPrice + $item->total_price;
@@ -638,6 +639,8 @@ class OrderService
             }
             $order->status = OrderStatus::DELIVERED;
             $order->save();
+
+            $order->orderItems()->update(['status' => OrderStatus::DELIVERED]);
 
             SendOrderMail::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);
             SendOrderSms::dispatch(['order_id' => $order->id, 'status' => OrderStatus::DELIVERED]);

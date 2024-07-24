@@ -42,6 +42,8 @@ class OrderItemResource extends JsonResource
             'tax_currency_amount'              => AppLibrary::currencyAmountFormat($this->tax_amount),
             'total_without_tax_currency_price' => AppLibrary::currencyAmountFormat($this->total_price - $this->tax_amount),
             'order_datetime'                   => AppLibrary::datetime($this->order_datetime),
+            'status'                           => $this->status,
+
         ];
     }
 }
