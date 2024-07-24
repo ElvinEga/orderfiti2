@@ -169,6 +169,7 @@ class FrontendOrderService
                     $this->frontendOrder->order_serial_no = date('dmy') . $this->frontendOrder->id;
                 }
                 $this->frontendOrder->total_tax += $totalTax;
+                $this->frontendOrder->status = OrderStatus::PENDING;
                 $this->frontendOrder->save();
 
                 $user = User::find(Auth::user()->id);

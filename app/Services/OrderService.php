@@ -478,6 +478,7 @@ class OrderService
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $totalCredit;
                 $this->order->subtotal = $previousSubTotal + $newSubtotal;
+                $this->order->status = OrderStatus::ACCEPT;
                 $this->order->delivery_boy_id = 4;
                 $this->order->save();
 
