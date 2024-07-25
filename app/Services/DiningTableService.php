@@ -87,10 +87,10 @@ class DiningTableService
             $slug     = Str::slug($branch_name.'-'.$request->name);
             $url      = URL::to('/') . "/#/menu/" . $slug;
 
-            if (!File::exists(storage_path('app/public/qr_codes/'))) {
-                File::makeDirectory(storage_path('app/public/qr_codes/'));
-            }
-            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
+//            if (!File::exists(storage_path('app/public/qr_codes/'))) {
+//                File::makeDirectory(storage_path('app/public/qr_codes/'));
+//            }
+//            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
             return DiningTable::create($request->validated() + ['qr_code' => 'storage/qr_codes/' . $filename, 'slug' => $slug]);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -111,15 +111,15 @@ class DiningTableService
             $slug     = Str::slug($branch_name.'-'.$request->name);
             $url      = URL::to('/') . "/#/menu/" . $slug;
 
-            if (!File::exists(storage_path('app/public/qr_codes/'))) {
-                File::makeDirectory(storage_path('app/public/qr_codes/'));
-            }
+//            if (!File::exists(storage_path('app/public/qr_codes/'))) {
+//                File::makeDirectory(storage_path('app/public/qr_codes/'));
+//            }
 
-            if(File::exists($diningTable->qr_code)){
-                File::delete($diningTable->qr_code);
-            }
+//            if(File::exists($diningTable->qr_code)){
+//                File::delete($diningTable->qr_code);
+//            }
 
-            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
+//            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
 
             return tap($diningTable)->update($request->validated() + ['qr_code' => 'storage/qr_codes/' . $filename, 'slug' => $slug]);
         } catch (Exception $exception) {
