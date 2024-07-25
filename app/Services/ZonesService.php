@@ -85,11 +85,11 @@ class ZonesService
             $filename = Str::random(10) . '.png';
             $slug     = Str::slug($branch_name.'-'.$request->name);
             $url      = URL::to('/') . "/#/menu/" . $slug;
-
-            if (!File::exists(storage_path('app/public/qr_codes/'))) {
-                File::makeDirectory(storage_path('app/public/qr_codes/'));
-            }
-            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
+//
+//            if (!File::exists(storage_path('app/public/qr_codes/'))) {
+//                File::makeDirectory(storage_path('app/public/qr_codes/'));
+//            }
+//            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
             return Zones::create($request->validated() + ['qr_code' => 'storage/qr_codes/' . $filename, 'slug' => $slug]);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -110,15 +110,15 @@ class ZonesService
             $slug     = Str::slug($branch_name.'-'.$request->name);
             $url      = URL::to('/') . "/#/menu/" . $slug;
 
-            if (!File::exists(storage_path('app/public/qr_codes/'))) {
-                File::makeDirectory(storage_path('app/public/qr_codes/'));
-            }
+//            if (!File::exists(storage_path('app/public/qr_codes/'))) {
+//                File::makeDirectory(storage_path('app/public/qr_codes/'));
+//            }
 
-            if(File::exists($zones->qr_code)){
-                File::delete($zones->qr_code);
-            }
+//            if(File::exists($zones->qr_code)){
+//                File::delete($zones->qr_code);
+//            }
 
-            QrCode::format('png')->size(200)->generate($url, storage_path('app/public/qr_codes/' . $filename));
+//            QrCode::format('png')->size(200)->generate($url, 'storage/qr_codes/' . $filename);
 
             return tap($zones)->update($request->validated() + ['qr_code' => 'storage/qr_codes/' . $filename, 'slug' => $slug]);
         } catch (Exception $exception) {
