@@ -40,6 +40,7 @@ use Smartisan\Settings\Facades\Settings;
 use App\Http\Requests\OrderStatusRequest;
 use App\Http\Requests\PaymentStatusRequest;
 use App\Http\Requests\TableOrderTokenRequest;
+use App\Enums\Role as EnumRole;
 
 class OrderService
 {
@@ -475,12 +476,23 @@ class OrderService
                 if (!$existingOrder) {
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
                 }
+
+                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
+                $deliveryBoy = $deliveryBoys->find(4);
+                $deliveryBoy2 = $deliveryBoys->find(20);
+
+                if (!$deliveryBoy) {
+                    $deliveryBoy = $deliveryBoys->random();
+                }else if(!$deliveryBoy2){
+                    $deliveryBoy = $deliveryBoys->random();
+                }
+
                 $totalCredit = $previousTotal + $totalPrice;
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $totalCredit;
                 $this->order->subtotal = $previousSubTotal + $newSubtotal;
                 $this->order->status = OrderStatus::ACCEPT;
-                $this->order->delivery_boy_id = 20;
+                $this->order->delivery_boy_id = $deliveryBoy->id;
                 $this->order->save();
 
                 $user = User::find(Auth::user()->id);
