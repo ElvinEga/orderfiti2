@@ -478,12 +478,17 @@ class OrderService
                 }
 
                 $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
-                $deliveryBoy = $deliveryBoys->find(4);
-                $deliveryBoy2 = $deliveryBoys->find(20);
+                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
+                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
+                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
 
-                if (!$deliveryBoy) {
-                    $deliveryBoy = $deliveryBoys->random();
-                }else if(!$deliveryBoy2){
+                if ($deliveryBoy) {
+                    $this->order->delivery_boy_id = $deliveryBoy->id;
+                }else if($deliveryBoy2){
+                    $this->order->delivery_boy_id = $deliveryBoy2->id;
+                }else if(!$deliveryBoy3){
+                    $this->order->delivery_boy_id = $deliveryBoy3->id;
+                }else{
                     $deliveryBoy = $deliveryBoys->random();
                 }
 
@@ -492,7 +497,7 @@ class OrderService
                 $this->order->total = $totalCredit;
                 $this->order->subtotal = $previousSubTotal + $newSubtotal;
                 $this->order->status = OrderStatus::ACCEPT;
-                $this->order->delivery_boy_id = $deliveryBoy->id;
+//                $this->order->delivery_boy_id = $deliveryBoy->id;
                 $this->order->save();
 
                 $user = User::find(Auth::user()->id);
