@@ -655,7 +655,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/show/{language}', [FrontendLanguageController::class, 'show']);
     });
 
-    Route::prefix('dining-table')->name('dining-table.')->middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('dining-table')->name('dining-table.')->group(function () {
         Route::get('/', [DiningTableController::class, 'index']);
         Route::get('/show/{diningTable}', [DiningTableController::class, 'show']);
         Route::post('/', [DiningTableController::class, 'store']);
