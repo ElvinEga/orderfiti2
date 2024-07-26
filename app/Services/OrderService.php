@@ -477,27 +477,30 @@ class OrderService
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
                 }
 
-                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
-                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
-                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
-                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
+                $branchId = $request->branch_id;
 
-                if ($deliveryBoy) {
-                    $this->order->delivery_boy_id = $deliveryBoy->id;
-                }else if($deliveryBoy2){
-                    $this->order->delivery_boy_id = $deliveryBoy2->id;
-                }else if(!$deliveryBoy3){
-                    $this->order->delivery_boy_id = $deliveryBoy3->id;
-                }else{
+//                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
+                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->where('branch_id', $branchId)->get();
+//                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
+//                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
+//                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
+
+//                if ($deliveryBoy) {
+//                    $this->order->delivery_boy_id = $deliveryBoy->id;
+//                }else if($deliveryBoy2){
+//                    $this->order->delivery_boy_id = $deliveryBoy2->id;
+//                }else if(!$deliveryBoy3){
+//                    $this->order->delivery_boy_id = $deliveryBoy3->id;
+//                }else{
                     $deliveryBoy = $deliveryBoys->random();
-                }
+//                }
 
                 $totalCredit = $previousTotal + $totalPrice;
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $totalCredit;
                 $this->order->subtotal = $previousSubTotal + $newSubtotal;
                 $this->order->status = OrderStatus::ACCEPT;
-//                $this->order->delivery_boy_id = $deliveryBoy->id;
+                $this->order->delivery_boy_id = $deliveryBoy->id;
                 $this->order->save();
 
                 $user = User::find(Auth::user()->id);
