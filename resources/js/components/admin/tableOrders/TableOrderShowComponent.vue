@@ -154,6 +154,7 @@
                                                 }}<span v-if="index + 1 < item.item_variations.length">,&nbsp;</span>
                                             </span>
                                         </p>
+                                        <p v-if="item.status === 1" class="inline-flex items-center mt-2 gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">New</p>
                                         <h3 class="text-xs font-semibold">{{ item.total_currency_price }}</h3>
                                     </div>
                                 </div>
