@@ -7,6 +7,7 @@ use App\Enums\Activity;
 use App\Enums\Ask;
 use App\Enums\Status;
 use App\Models\Address;
+use App\Models\Zones;
 use App\Models\Scopes\BranchScope;
 use App\Traits\MultiTenantModelTrait;
 use Laravel\Sanctum\HasApiTokens;
@@ -111,6 +112,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Address::class);
     }
 
+    public function zone(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Zones::class);
+    }
     public function getFirstNameAttribute(): string
     {
         $name = explode(' ', $this->name, 2);
