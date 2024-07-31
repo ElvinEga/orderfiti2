@@ -3619,6 +3619,10 @@ input:checked + div svg {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -5087,6 +5091,10 @@ input:checked + div svg {
 .text-red-700 {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity));
+}
+.text-red-800 {
+  --tw-text-opacity: 1;
+  color: rgb(153 27 27 / var(--tw-text-opacity));
 }
 .text-slate-400 {
   --tw-text-opacity: 1;
@@ -6580,5 +6588,17 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 
   .rtl\:md\:left-5:where([dir="rtl"], [dir="rtl"] *) {
     left: 1.25rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .dark\:bg-red-800\/30 {
+    background-color: rgb(153 27 27 / 0.3);
+  }
+
+  .dark\:text-red-500 {
+    --tw-text-opacity: 1;
+    color: rgb(239 68 68 / var(--tw-text-opacity));
   }
 }
