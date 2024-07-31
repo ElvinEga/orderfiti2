@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Enums\Ask;
 use App\Models\User;
+use App\Models\Zones;
 use App\Enums\Role as EnumRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,7 @@ class DeliveryBoyService
     public $user;
     public $phoneFilter = ['phone'];
     public $roleFilter = ['role_id'];
-    public $userFilter = ['name', 'email', 'username', 'branch_id', 'status', 'phone'];
+    public $userFilter = ['name', 'email', 'username', 'branch_id', 'status', 'phone', 'zone_id'];
     public $blockRoles = [EnumRole::ADMIN];
 
 
@@ -36,7 +37,9 @@ class DeliveryBoyService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return User::with('media', 'addresses')->role(EnumRole::DELIVERY_BOY)->where(
+            return User::with('media', 'addresses')
+                ->join('zones', 'users.zone_id', '=', 'zones.id')
+                ->role(EnumRole::DELIVERY_BOY)->where(
                 function ($query) use ($requests) {
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->userFilter)) {
@@ -44,7 +47,8 @@ class DeliveryBoyService
                         }
                     }
                 }
-            )->orderBy($orderColumn, $orderType)->$method(
+            )   ->select('users.*', 'zones.name as zone_name')
+                ->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
             );
         } catch (Exception $exception) {

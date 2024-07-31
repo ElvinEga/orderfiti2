@@ -81,6 +81,7 @@
                             <th class="db-table-head-th">{{ $t("label.name") }}</th>
                             <th class="db-table-head-th">{{ $t("label.email") }}</th>
                             <th class="db-table-head-th">{{ $t("label.phone") }}</th>
+                            <th class="db-table-head-th">{{ $t("label.zone") }}</th>
                             <th class="db-table-head-th">{{ $t("label.status") }}</th>
                             <th class="db-table-head-th hidden-print"
                                 v-if="permissionChecker('delivery-boys_show') || permissionChecker('delivery-boys_edit') || permissionChecker('delivery-boys_delete')">
@@ -92,6 +93,7 @@
                             <td class="db-table-body-td">{{ textShortener(deliveryBoy.name, 20) }}</td>
                             <td class="db-table-body-td">{{ deliveryBoy.email }}</td>
                             <td class="db-table-body-td">{{ deliveryBoy.country_code + '' + deliveryBoy.phone }}</td>
+                            <td class="db-table-body-td">{{ deliveryBoy.zone_name }}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(deliveryBoy.status)">
                                     {{ enums.statusEnumArray[deliveryBoy.status] }}
