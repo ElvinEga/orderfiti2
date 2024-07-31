@@ -96,6 +96,8 @@
 
                                     <h3 class="text-lg font-semibold">{{ item.total_currency_price }}</h3>
 
+                                    <span v-if="item.status === 1" class="inline-flex items-center mt-2 gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">New</span>
+
                                     <h3 class="text-sm font-semibold text-gray-500 mt-3">{{ item.order_datetime }}</h3>
                                 </div>
                             </div>
