@@ -10,6 +10,7 @@ use App\Models\Address;
 use App\Models\Zones;
 use App\Models\Scopes\BranchScope;
 use App\Traits\MultiTenantModelTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Models\Role;
@@ -112,9 +113,9 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Address::class);
     }
 
-    public function zone(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function zone(): BelongsTo
     {
-        return $this->hasMany(Zones::class);
+        return $this->belongsTo(Zones::class);
     }
     public function getFirstNameAttribute(): string
     {

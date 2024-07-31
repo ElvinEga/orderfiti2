@@ -41,7 +41,11 @@ class DeliveryBoyService
                 function ($query) use ($requests) {
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->userFilter)) {
-                            $query->where($key, 'like', '%' . $request . '%');
+                            if ($key === 'zone_id') {
+                                $query->where('zone_id', $request);
+                            } else {
+                                $query->where($key, 'like', '%' . $request . '%');
+                            }
                         }
                     }
                 }
