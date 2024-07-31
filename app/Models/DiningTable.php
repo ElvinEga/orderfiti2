@@ -34,6 +34,11 @@ class DiningTable extends Model
         return $this->belongsTo(Branch::class);
     }
 
+
+    public function zone(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Zones::class);
+    }
     public function getQrAttribute(): ?string
     {
         if (!empty($this->qr_code)) {

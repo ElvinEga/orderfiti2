@@ -93,6 +93,7 @@ class DeliveryBoyService
                     $this->user->email        = $request->email;
                     $this->user->phone        = $request->phone;
                     $this->user->branch_id    = $request->branch_id;
+                    $this->user->zone_id      = $request->zone_id;
                     $this->user->status       = $request->status;
                     $this->user->country_code = $request->country_code;
                     if ($request->password) {

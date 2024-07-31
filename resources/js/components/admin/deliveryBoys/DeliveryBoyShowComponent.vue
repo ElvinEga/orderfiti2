@@ -96,6 +96,13 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="col-12 sm:col-6 !py-1.5">
+                            <label for="user_id" class="db-field-title">{{ $t("label.zones") }}</label>
+                            <vue-select class="db-field-control f-b-custom-select" id="user_id"
+                                        v-model="props.form.zone_id" :options="zones"
+                                        label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                                        placeholder="--" search-placeholder="--" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -218,6 +225,7 @@ import PaginationSMBox from "../components/pagination/PaginationSMBox";
 
 export default {
     name: "DeliveryBoyShowComponent",
+    props: ['props'],
     components: {
         DeliveryBoyAddressList,
         DeliveredOrderList,
@@ -262,6 +270,9 @@ export default {
         };
     },
     computed: {
+        errors() {
+            return errors
+        },
         deliveryBoy: function () {
             return this.$store.getters["deliveryBoy/show"];
         },
@@ -274,6 +285,9 @@ export default {
         orderPage: function () {
             return this.$store.getters["deliveryBoy/orderPage"];
         },
+        zones: function () {
+            return this.$store.getters['zones/lists'];
+        }
     },
     mounted() {
         this.loading.isActive = true;
@@ -283,6 +297,11 @@ export default {
             this.loading.isActive = false;
         }).catch((error) => {
             this.loading.isActive = false;
+        });
+        this.$store.dispatch('zones/lists', {
+            order_column: 'id',
+            order_type: 'asc',
+            status: statusEnum.ACTIVE
         });
         this.orderLists();
     },
