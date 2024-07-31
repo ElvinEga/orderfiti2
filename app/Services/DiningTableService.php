@@ -46,7 +46,9 @@ class DiningTableService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return DiningTable::with('branch')->where(function ($query) use ($requests) {
+            return DiningTable::select('dining_tables.*', 'zones.name as zone_name')
+                ->leftJoin('zones', 'dining_tables.zone_id', '=', 'zones.id')
+                ->with('branch')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->diningTableFilter)) {
                         if ($key == "except") {
