@@ -82,7 +82,7 @@
                         <tr class="db-table-body-tr" v-for="diningTable in diningTables" :key="diningTable">
                             <td class="db-table-body-td">{{ diningTable.name }}</td>
                             <td class="db-table-body-td">{{ diningTable.size }}</td>
-                            <td class="db-table-body-td">{{ diningTable.zone.name}}</td>
+                            <td class="db-table-body-td">{{ diningTable.zone_name}}</td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(diningTable.status)">
                                     {{ enums.statusEnumArray[diningTable.status] }}
