@@ -96,13 +96,6 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-12 sm:col-6 !py-1.5">
-                            <label for="user_id" class="db-field-title">{{ $t("label.zones") }}</label>
-                            <vue-select class="db-field-control f-b-custom-select" id="user_id"
-                                        v-model="props.form.zone_id" :options="zones"
-                                        label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                                        placeholder="--" search-placeholder="--" />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -225,7 +218,6 @@ import PaginationSMBox from "../components/pagination/PaginationSMBox";
 
 export default {
     name: "DeliveryBoyShowComponent",
-    props: ['props'],
     components: {
         DeliveryBoyAddressList,
         DeliveredOrderList,

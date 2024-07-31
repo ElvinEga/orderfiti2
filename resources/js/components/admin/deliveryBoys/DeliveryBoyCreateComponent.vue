@@ -66,6 +66,14 @@
                         </div>
                         <small class="db-field-alert" v-if="errors.status">{{ errors.status[0] }}</small>
                     </div>
+                    <div class="col-12 sm:col-12">
+                        <label for="user_id" class="db-field-title">{{ $t("label.zones") }}</label>
+                        <vue-select class="db-field-control f-b-custom-select" id="user_id"
+                                    v-bind:class="errors.user_id ? 'invalid' : ''" v-model="props.form.zone_id" :options="zones"
+                                    label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                                    placeholder="--" search-placeholder="--" />
+                        <small class="db-field-alert" v-if="errors.user_id">{{ errors.zone_id[0] }}</small>
+                    </div>
 
                     <div class="form-col-12 sm:form-col-6">
                         <label for="password" class="db-field-title required">{{ $t("label.password") }}</label>
@@ -171,6 +179,9 @@ export default {
         authBranch: function () {
             return this.$store.getters.authBranchId;
         },
+        zones: function () {
+            return this.$store.getters['zones/lists'];
+        }
     },
     mounted() {
         this.loading.isActive = true;
@@ -197,6 +208,11 @@ export default {
         }).catch((err) => {
             this.loading.isActive = false;
         });
+        this.$store.dispatch('zones/lists', {
+            order_column: 'id',
+            order_type: 'asc',
+            status: statusEnum.ACTIVE
+        });
     },
     methods: {
         phoneNumber(e) {
@@ -212,6 +228,7 @@ export default {
                 phone: "",
                 password: "",
                 password_confirmation: "",
+                zone_id: null,
                 branch_id: this.defaultAccess.branch_id,
                 status: statusEnum.ACTIVE,
                 country_code: this.country_code,
@@ -231,6 +248,7 @@ export default {
                         phone: "",
                         password: "",
                         password_confirmation: "",
+                        zone_id : null,
                         branch_id: this.defaultAccess.branch_id,
                         status: statusEnum.ACTIVE,
                         country_code: this.country_code,
