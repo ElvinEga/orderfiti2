@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DeliveryBoyResource extends JsonResource
+class  DeliveryBoyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,6 +25,8 @@ class DeliveryBoyResource extends JsonResource
             "branch_id"    => $this->branch_id,
             "phone"        => $this->phone === null ? '' : $this->phone,
             "status"       => $this->status,
+            'zone_id'      => $this->zone_id,
+            'zone_name'    => $this->zone_name,
             "image"        => $this->image,
             "country_code" => $this->country_code,
         ];
