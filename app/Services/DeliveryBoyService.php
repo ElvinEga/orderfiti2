@@ -36,13 +36,15 @@ class DeliveryBoyService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return User::with('media', 'addresses', 'zone')
+            return User::select('users.*', 'zones.name as zone_name')
+                ->leftJoin('zones', 'users.zone_id', '=', 'zones.id')
+                ->with(['media', 'addresses'])
                 ->role(EnumRole::DELIVERY_BOY)->where(
                 function ($query) use ($requests) {
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->userFilter)) {
                             if ($key === 'zone_id') {
-                                $query->where('zone_id', $request);
+                                $query->where('users.zone_id', $request);
                             } else {
                                 $query->where($key, 'like', '%' . $request . '%');
                             }
