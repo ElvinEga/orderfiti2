@@ -19,6 +19,7 @@ class ItemService
 {
     public $item;
     protected $itemFilter = [
+        'branch_id',
         'name',
         'slug',
         'item_category_id',
