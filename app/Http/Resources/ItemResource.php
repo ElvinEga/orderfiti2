@@ -23,6 +23,7 @@ class ItemResource extends JsonResource
             "id"               => $this->id,
             "name"             => $this->name,
             "slug"             => $this->slug,
+            "branch_id"        => $this->branch_id,
             "item_category_id" => $this->item_category_id,
             "tax_id"           => $this->tax_id,
             "flat_price"       => AppLibrary::flatAmountFormat($this->price),

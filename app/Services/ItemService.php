@@ -56,7 +56,7 @@ class ItemService
                                 }
                             }
                         } else {
-                            if ($key == "branch_id") {
+                            if ($key == "item_category_id" && $key == "branch_id") {
                                 $query->where($key, $request);
                             } else {
                                 $query->where($key, 'like', '%' . $request . '%');

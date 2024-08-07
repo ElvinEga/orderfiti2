@@ -35,7 +35,7 @@ class Item extends Model implements HasMedia
         'id'               => 'integer',
         'name'             => 'string',
         'item_category_id' => 'integer',
-        'branch_id' => 'integer',
+        'branch_id'        => 'integer',
         'slug'             => 'string',
         'tax_id'           => 'integer',
         'item_type'        => 'integer',
@@ -72,6 +72,11 @@ class Item extends Model implements HasMedia
             return $item->getUrl('preview');
         }
         return asset('images/item/cover.png');
+    }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function registerMediaConversions(Media $media = null): void
