@@ -7,6 +7,7 @@ use App\Enums\Ask;
 use App\Enums\Status;
 use Exception;
 use App\Models\Item;
+use App\Models\Branch;
 use Illuminate\Support\Str;
 use App\Models\ItemVariation;
 use App\Http\Requests\ItemRequest;
@@ -19,7 +20,6 @@ class ItemService
 {
     public $item;
     protected $itemFilter = [
-        'branch_id',
         'name',
         'slug',
         'item_category_id',
@@ -30,7 +30,8 @@ class ItemService
         'status',
         'order',
         'description',
-        'except'
+        'except',
+        'branch_id',
     ];
 
     /**
@@ -45,7 +46,7 @@ class ItemService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
+            return Item::with('media', 'category', 'tax', 'branch')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->itemFilter)) {
                         if ($key == "except") {
@@ -56,7 +57,7 @@ class ItemService
                                 }
                             }
                         } else {
-                            if ($key == "item_category_id" && $key == "branch_id") {
+                            if ($key == "branch_id") {
                                 $query->where($key, $request);
                             } else {
                                 $query->where($key, 'like', '%' . $request . '%');
