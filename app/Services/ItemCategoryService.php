@@ -70,7 +70,6 @@ class ItemCategoryService
     {
         try {
             $branch_id = auth()->user()->branch_id;
-//            $request->branch_id = $branch_id;
             $itemCategory = ItemCategory::create($request->validated() + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
             if ($request->image) {
                 $itemCategory->addMediaFromRequest('image')->toMediaCollection('item-category');
@@ -88,7 +87,8 @@ class ItemCategoryService
     public function update(ItemCategoryRequest $request, ItemCategory $itemCategory): ItemCategory
     {
         try {
-            $itemCategory->update($request->validated() + ['slug' => Str::slug($request->name)]);
+            $branch_id = auth()->user()->branch_id;
+            $itemCategory->update($request->validated() + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
             if ($request->image) {
                 $itemCategory->clearMediaCollection('item-category');
                 $itemCategory->addMediaFromRequest('image')->toMediaCollection('item-category');

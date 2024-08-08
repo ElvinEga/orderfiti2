@@ -80,8 +80,10 @@ class ItemService
     public function store(ItemRequest $request)
     {
         try {
+
             DB::transaction(function () use ($request) {
-                $this->item = Item::create($request->validated() + ['slug' => Str::slug($request->name)]);
+                $branch_id = auth()->user()->branch_id;
+                $this->item = Item::create($request->validated() + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
                 if ($request->image) {
                     $this->item->addMedia($request->image)->toMediaCollection('item');
                 }
@@ -104,7 +106,8 @@ class ItemService
     {
         try {
             DB::transaction(function () use ($request, $item) {
-                $item->update($request->validated() + ['slug' => Str::slug($request->name)]);
+                $branch_id = auth()->user()->branch_id;
+                $item->update($request->validated() + + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
                 if ($request->image) {
                     $item->addMedia($request->image)->toMediaCollection('item');
                 }
