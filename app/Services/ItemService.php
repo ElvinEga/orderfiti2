@@ -46,7 +46,7 @@ class ItemService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Item::with('media', 'category', 'tax', 'branch')->where(function ($query) use ($requests) {
+            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->itemFilter)) {
                         if ($key == "except") {
@@ -57,7 +57,7 @@ class ItemService
                                 }
                             }
                         } else {
-                            if ($key == "branch_id") {
+                            if ($key == "item_category_id") {
                                 $query->where($key, $request);
                             } else {
                                 $query->where($key, 'like', '%' . $request . '%');
