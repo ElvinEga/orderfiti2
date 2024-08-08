@@ -18,6 +18,7 @@ class ItemCategoryService
     protected $itemCateFilter = [
         'name',
         'slug',
+        'branch_id',
         'description',
         'status'
     ];

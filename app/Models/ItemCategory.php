@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Status;
+use App\Models\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -13,14 +14,26 @@ class ItemCategory extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $table = "item_categories";
-    protected $fillable = ['name', 'slug', 'description', 'status'];
+    protected $fillable = ['name', 'slug', 'description', 'status', 'branch_id'];
     protected $casts = [
         'id'          => 'integer',
         'name'        => 'string',
+        'branch_id'   => 'integer',
         'slug'        => 'string',
         'description' => 'string',
         'status'      => 'integer',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope());
+    }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
 
     public function getThumbAttribute(): string
     {

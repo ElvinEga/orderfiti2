@@ -18,6 +18,7 @@ class ItemCategoryResource extends JsonResource
         return [
             'id'          => $this->id,
             'name'        => $this->name,
+            'branch_id'   => $this->branch_id,
             'slug'        => $this->slug,
             'description' => $this->description === null ? '' : $this->description,
             'status'      => $this->status,
