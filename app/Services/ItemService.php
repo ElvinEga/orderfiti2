@@ -58,7 +58,7 @@ class ItemService
                             }
                         } else {
                             if ($key == "branch_id") {
-                                $query->where($key, $request);
+                                $query->whereIn($key, explode(',', $request));
                             } else {
                                 $query->where($key, 'like', '%' . $request . '%');
                             }
