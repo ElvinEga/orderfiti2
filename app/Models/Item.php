@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\BranchScope;
 use Carbon\Carbon;
 use App\Enums\Status;
 use Spatie\MediaLibrary\HasMedia;
@@ -46,6 +47,13 @@ class Item extends Model implements HasMedia
         'status'           => 'integer',
         'order'            => 'integer',
     ];
+
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope());
+    }
 
     public function getThumbAttribute(): string
     {
