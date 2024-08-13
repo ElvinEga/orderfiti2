@@ -88,10 +88,10 @@ class SignupController extends Controller
                     'country_code'      => $request->post('country_code'),
                     'branch_id'         => 0,
                     'email_verified_at' => Carbon::now()->getTimestamp(),
-                    'is_guest'          => Ask::NO,
+                    'is_guest'          => Ask::YES,
                     'password'          => Hash::make($request->post('password'))
                 ]);
-                $user->assignRole(EnumRole::CUSTOMER);
+                $user->assignRole(EnumRole::ADMIN);
             }
             return response(['status' => true, 'message' => trans('all.message.register_successfully')], 201);
         }

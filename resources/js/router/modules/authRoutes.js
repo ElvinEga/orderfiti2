@@ -7,6 +7,7 @@ import GuestVerifyComponent from "../../components/frontend/auth/GuestVerifyComp
 import SignupPhoneComponent from "../../components/frontend/auth/SignupPhoneComponent";
 import SignupVerifyComponent from "../../components/frontend/auth/SignupVerifyComponent";
 import SignupRegisterComponent from "../../components/frontend/auth/SignupRegisterComponent";
+import SignupBusinessComponent from "../../components/frontend/auth/SignupBusinessComponent.vue";
 
 export default [
     {
@@ -67,6 +68,15 @@ export default [
         path: '/signup/register',
         component: SignupRegisterComponent,
         name: 'auth.signupRegister',
+        meta: {
+            isFrontend: true,
+            auth: false
+        }
+    },
+    {
+        path: '/signup/business',
+        component: SignupBusinessComponent,
+        name: 'auth.signupBusiness',
         meta: {
             isFrontend: true,
             auth: false

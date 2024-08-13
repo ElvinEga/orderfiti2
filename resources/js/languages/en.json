@@ -385,6 +385,7 @@
         "resend_code": "resend code",
         "continue": "Continue",
         "create_account": "Create Account",
+        "create_business": "Create Business",
         "guest_login": "Guest Login",
         "delivery_time": "Service Time",
         "cancel_order": "Cancel Order",
