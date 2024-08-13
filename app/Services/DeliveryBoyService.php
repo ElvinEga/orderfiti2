@@ -39,27 +39,27 @@ class DeliveryBoyService
             return User::select('users.*', 'zones.name as zone_name')
                 ->leftJoin('zones', 'users.zone_id', '=', 'zones.id')
                 ->with(['media', 'addresses'])
-                ->role(EnumRole::DELIVERY_BOY)->where(
-                function ($query) use ($requests) {
+                ->role(EnumRole::DELIVERY_BOY)
+                ->where(function ($query) use ($requests) {
                     foreach ($requests as $key => $request) {
                         if (in_array($key, $this->userFilter)) {
                             if ($key === 'zone_id') {
                                 $query->where('users.zone_id', $request);
+                            } elseif ($key === 'status') {
+                                $query->where('users.status', 'like', '%' . $request . '%');
                             } else {
-                                $query->where($key, 'like', '%' . $request . '%');
+                                $query->where('users.' . $key, 'like', '%' . $request . '%');
                             }
                         }
                     }
-                }
-            )->orderBy($orderColumn, $orderType)->$method(
-                $methodValue
-            );
+                })
+                ->orderBy($orderColumn, $orderType)
+                ->$method($methodValue);
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
-
     public function store(DeliveryBoyRequest $request)
     {
         try {
