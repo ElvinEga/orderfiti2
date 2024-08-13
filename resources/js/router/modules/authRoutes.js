@@ -74,7 +74,7 @@ export default [
         }
     },
     {
-        path: '/signup/business',
+        path: '/create-business',
         component: SignupBusinessComponent,
         name: 'auth.signupBusiness',
         meta: {
