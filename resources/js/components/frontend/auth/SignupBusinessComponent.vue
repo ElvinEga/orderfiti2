@@ -119,14 +119,6 @@ export default {
             loading: {
                 isActive: false,
             },
-
-            enums: {
-                statusEnum: statusEnum,
-                statusEnumArray: {
-                    [statusEnum.ACTIVE]: this.$t("label.active"),
-                    [statusEnum.INACTIVE]: this.$t("label.inactive"),
-                },
-            },
             isMap: false,
             address: "",
             errors: {},
@@ -134,7 +126,7 @@ export default {
     },
     computed: {
         addButton: function () {
-            return { title: this.$t('button.add_branch') };
+            return { title: this.$t('button.sign_up') };
         }
     },
     methods: {
