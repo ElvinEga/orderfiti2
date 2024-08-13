@@ -48,6 +48,15 @@ class BranchController extends AdminController
         }
     }
 
+    public function store_business(BranchRequest $request
+    ) : BranchResource | \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        try {
+            return new BranchResource($this->branchService->store_business($request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
 
     public function update(
         BranchRequest $request,

@@ -231,6 +231,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
             Route::get('/', [BranchController::class, 'index']);
             Route::get('/show/{branch}', [BranchController::class, 'show']);
             Route::post('/', [BranchController::class, 'store']);
+            Route::post('/business', [BranchController::class, 'store_business']);
             Route::match(['put', 'patch'], '/{branch}', [BranchController::class, 'update']);
             Route::delete('/{branch}', [BranchController::class, 'destroy']);
         });

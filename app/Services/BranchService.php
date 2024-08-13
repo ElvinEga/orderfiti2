@@ -7,6 +7,7 @@ use App\Http\Requests\BranchRequest;
 use App\Http\Requests\PaginateRequest;
 use App\Models\Branch;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Smartisan\Settings\Facades\Settings;
 use App\Libraries\QueryExceptionLibrary;
@@ -66,6 +67,26 @@ class BranchService
         }
     }
 
+    /**
+     * @throws Exception
+     */
+    public function store_business(BranchRequest $request)
+    {
+        try {
+            // Create the branch and get its ID
+            $branch = Branch::create($request->validated());
+            $branchId = $branch->id;
+
+            $user = Auth::user();
+            $user->branch_id = $branchId;
+            $user->save();
+
+            return $branch;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
     /**
      * @throws Exception
      */

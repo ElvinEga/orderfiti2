@@ -93,7 +93,7 @@
                     <div class="col-12">
                         <button type="submit"
                                 class="w-full h-12 text-center capitalize font-medium rounded-3xl text-white bg-primary">
-                            {{ $t('button.sign_up') }}
+                            {{ $t('button.create_business') }}
                         </button>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ export default {
     },
     computed: {
         addButton: function () {
-            return { title: this.$t('button.sign_up') };
+            return { title: this.$t('button.create_business') };
         }
     },
     methods: {
@@ -161,7 +161,7 @@ export default {
             try {
                 const tempId = this.$store.getters["branch/temp"].temp_id;
                 this.loading.isActive = true;
-                this.$store.dispatch("branch/save", this.props).then((res) => {
+                this.$store.dispatch("branch/save_business", this.props).then((res) => {
                     this.loading.isActive = false;
                     alertService.successFlip(
                         tempId === null ? 0 : 1,

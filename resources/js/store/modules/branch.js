@@ -53,6 +53,29 @@ export const branch = {
                 });
             });
         },
+
+        save_business: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let method = axios.post;
+                let url = "/admin/setting/branch/business";
+                if (this.state["branch"].temp.isEditing) {
+                    method = axios.put;
+                    url = `/admin/setting/branch/${this.state["branch"].temp.temp_id}`;
+                }
+                method(url, payload.form)
+                    .then((res) => {
+                        context
+                            .dispatch("lists", payload.search)
+                            .then()
+                            .catch();
+                        // context.commit("reset");
+                        resolve(res);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
+            });
+        },
         save: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let method = axios.post;
