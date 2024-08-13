@@ -113,11 +113,25 @@ import MapComponent from "../../frontend/components/MapComponent";
 export default {
     name: "SignupBusinessComponent",
     components: { LoadingComponent, MapComponent },
-    props: ["props"],
+    // props: ["props"],
     data() {
         return {
             loading: {
                 isActive: false,
+            },
+            props: {
+                form: {
+                    name: "",
+                    email: "",
+                    phone: "",
+                    latitude: "",
+                    longitude: "",
+                    city: "",
+                    state: "",
+                    zip_code: "",
+                    address: "",
+                    status: statusEnum.ACTIVE,
+                },
             },
             isMap: false,
             address: "",
@@ -142,24 +156,6 @@ export default {
             this.props.form.zip_code = e.other.zipCode;
             this.props.form.address = e.address;
         },
-        reset: function () {
-            // appService.modalHide();
-            this.$store.dispatch("branch/reset").then().catch();
-            this.errors = {};
-            this.$props.props.form = {
-                name: "",
-                email: "",
-                phone: "",
-                latitude: "",
-                longitude: "",
-                city: "",
-                state: "",
-                zip_code: "",
-                address: "",
-                status: statusEnum.ACTIVE,
-            };
-        },
-
 
         save: function () {
             try {
