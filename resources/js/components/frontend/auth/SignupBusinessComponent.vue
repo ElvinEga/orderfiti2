@@ -192,6 +192,7 @@ export default {
                         status: statusEnum.ACTIVE,
                     };
                     this.errors = {};
+                    this.$router.push({ name: "frontend.home" });
                 }).catch((err) => {
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;

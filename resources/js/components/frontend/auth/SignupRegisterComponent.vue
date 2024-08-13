@@ -114,9 +114,9 @@ export default {
                             phone: "",
                         };
                         if (this.carts.length > 0) {
-                            this.$router.push({ name: "frontend.checkout" });
+                            this.$router.push({ name: "auth.signupBusiness" });
                         } else {
-                            this.$router.push({ name: "frontend.home" });
+                            this.$router.push({ name: "auth.signupBusiness" });
                         }
                     }).catch((err) => {
                         this.loading.isActive = false;
