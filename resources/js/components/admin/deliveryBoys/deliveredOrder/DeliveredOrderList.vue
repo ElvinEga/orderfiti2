@@ -26,6 +26,8 @@
                                 $t("label.items")
                             }}</p>
                             <p class="text-xs font-light font-rubik mb-1">{{ order.order_datetime }}</p>
+                            <p class="text-xs font-light font-rubik mb-1"><span class="text-heading">{{ order.delivery_time }}</span>
+                                <span class="font-bold">&nbsp; ({{ order.delivery_period }})&nbsp; </span></p>
                             <div class="flex items-center justify-between">
                                 <p class="text-sm leading-6 font-rubik capitalize text-heading">{{
                                     $t("label.total")
