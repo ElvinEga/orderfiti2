@@ -39,13 +39,21 @@ class BranchService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Branch::where(function ($query) use ($requests) {
+            $query = Branch::where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->branchFilter)) {
                         $query->where($key, 'like', '%' . $request . '%');
                     }
                 }
-            })->orderBy($orderColumn, $orderType)->$method(
+            });
+
+            // Check if the authenticated user's branch_id is 0
+            if (auth()->user()->branch_id != 0) {
+                // If not, filter the branches by the user's branch_id
+                $query->where('branch_id', auth()->user()->branch_id);
+            }
+
+            return $query->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
             );
         } catch (Exception $exception) {
