@@ -118,7 +118,6 @@
                             </td>
                             <td class="db-table-body-td">
                                 <span :class="statusClass(order.payment_status)">
-                                    {{ enums.orderStatusEnumArray[order.status] }}
                                        {{ enums.paymentStatusEnumArray[order.payment_status] }}
                                 </span>
                             </td>
