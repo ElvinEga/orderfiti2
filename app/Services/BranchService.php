@@ -50,7 +50,7 @@ class BranchService
             // Check if the authenticated user's branch_id is 0
             if (auth()->user()->branch_id != 0) {
                 // If not, filter the branches by the user's branch_id
-                $query->where('branch_id', auth()->user()->branch_id);
+                $query->where('id', auth()->user()->branch_id);
             }
 
             return $query->orderBy($orderColumn, $orderType)->$method(
