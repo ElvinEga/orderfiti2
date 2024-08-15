@@ -40,6 +40,35 @@ class AppLibrary
         return Carbon::parse($dateTime)->format($pattern);
     }
 
+    public static function deliveryPeriod($dateTime, $pattern = null): string
+    {
+        if (!$pattern) {
+            $pattern = env('TIME_FORMAT');
+        }
+
+        $explode = explode('-', $dateTime);
+        if (count($explode) == 2) {
+            $startTime = Carbon::parse(trim($explode[0]));
+            $endTime = Carbon::parse(trim($explode[1]));
+
+            $deliveryTimeInSeconds = $endTime->diffInSeconds($startTime);
+
+            if ($pattern === 'seconds') {
+                return $deliveryTimeInSeconds . ' seconds';
+            } elseif ($pattern === 'minutes') {
+                $deliveryTimeInMinutes = round($deliveryTimeInSeconds / 60);
+                return $deliveryTimeInMinutes . ' minutes';
+            } elseif ($pattern === 'hours') {
+                $deliveryTimeInHours = round($deliveryTimeInSeconds / 3600);
+                return $deliveryTimeInHours . ' hours';
+            } else {
+                return $startTime->format($pattern) . ' - ' . $endTime->format($pattern);
+            }
+        }
+
+        return '';
+    }
+
     public static function increaseDate($dateTime, $days, $pattern = null): string
     {
         if (!$pattern) {

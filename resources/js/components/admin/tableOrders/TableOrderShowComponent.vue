@@ -52,6 +52,13 @@
                                 {{ order.order_datetime }}
                             </span>
                         </li>
+                        <li class="text-xs">
+                            {{ $t("label.delivery_period") }}:
+                            <span class="text-heading">
+                                {{ order.delivery_time }}
+                            </span>
+                            <span class="text-xl font-bold">  {{ order.delivery_period}} </span>
+                        </li>
                         <li class="text-xs" v-if="order.table_name">
                             {{ $t("label.table_name") }}:
                             <span class="text-heading">

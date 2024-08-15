@@ -388,6 +388,7 @@
         "create_business": "Create Business",
         "guest_login": "Guest Login",
         "delivery_time": "Service Time",
+        "delivery_period": "Service Period",
         "cancel_order": "Cancel Order",
         "reason": "Reason",
         "see_order_details": "See Order Details",

@@ -32,6 +32,7 @@ class OrderDetailsResource extends JsonResource
             'order_time'                          => AppLibrary::time($this->order_datetime),
             'delivery_date'                       => $this->is_advance_order == Ask::YES ? AppLibrary::increaseDate($this->order_datetime, 1) : AppLibrary::date($this->order_datetime),
             'delivery_time'                       => AppLibrary::deliveryTime($this->delivery_time),
+            'delivery_period'                     => AppLibrary::deliveryPeriod($this->delivery_time),
             'payment_method'                      => $this->payment_method,
             'payment_status'                      => $this->payment_status,
             'is_advance_order'                    => $this->is_advance_order,
