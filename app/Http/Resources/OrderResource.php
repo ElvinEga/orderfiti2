@@ -30,6 +30,8 @@ class OrderResource extends JsonResource
             "total_amount_price"             => AppLibrary::flatAmountFormat($this->total),
             "discount_currency_price"        => AppLibrary::currencyAmountFormat($this->discount),
             "delivery_charge_currency_price" => AppLibrary::currencyAmountFormat($this->delivery_charge),
+            'delivery_time'                  => AppLibrary::deliveryTime($this->delivery_time),
+            'delivery_period'                => AppLibrary::deliveryPeriod($this->delivery_time),
             'payment_method'                 => $this->payment_method,
             'payment_status'                 => $this->payment_status,
             'preparation_time'               => $this->preparation_time,

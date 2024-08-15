@@ -57,7 +57,7 @@
                             <span class="text-heading">
                                 {{ order.delivery_time }}
                             </span>
-                            <span class="font-bold"> ({{ order.delivery_period }}) </span>
+                            <span class="font-bold">&nbsp; ({{ order.delivery_period }})&nbsp; </span>
                         </li>
                         <li class="text-xs" v-if="order.table_name">
                             {{ $t("label.table_name") }}:

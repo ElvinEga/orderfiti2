@@ -29,6 +29,7 @@ class SimpleDeliveryBoyOrderResource extends JsonResource
             ) : AppLibrary::date($this->order_datetime),
             "total_currency_price"                => AppLibrary::currencyAmountFormat($this->total),
             'delivery_time'    => AppLibrary::deliveryTime($this->delivery_time),
+            'delivery_period'  => AppLibrary::deliveryPeriod($this->delivery_time),
             'payment_method'   => $this->payment_method,
             'payment_status'   => $this->payment_status,
             "total_amount_price"=> AppLibrary::flatAmountFormat($this->total),
