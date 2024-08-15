@@ -87,10 +87,11 @@
                     <thead class="db-table-head">
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">{{ $t("label.order_id") }}</th>
-                            <th class="db-table-head-th">{{ $t("label.order_type") }}</th>
+                            <th class="db-table-head-th">{{ $t("label.table") }}</th>
                             <th class="db-table-head-th">{{ $t("label.customer") }}</th>
                             <th class="db-table-head-th">{{ $t("label.amount") }}</th>
                             <th class="db-table-head-th">{{ $t("label.date") }}</th>
+                            <th class="db-table-head-th">{{ $t("label.payment_status") }}</th>
                             <th class="db-table-head-th">{{ $t("label.status") }}</th>
                             <th class="db-table-head-th hidden-print" v-if="permissionChecker('table-orders')">
                                 {{ $t("label.action") }}
@@ -103,8 +104,8 @@
                                 {{ order.order_serial_no }}
                             </td>
                             <td class="db-table-body-td">
-                                <span :class="statusClass(order.order_type)">
-                                    {{ enums.orderTypeEnumArray[order.order_type] }}
+                                <span class="db-table-body-td">
+                                         {{ order.table_name }}
                                 </span>
                             </td>
 
@@ -114,6 +115,12 @@
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                             <td class="db-table-body-td">
                                 {{ order.order_datetime }}
+                            </td>
+                            <td class="db-table-body-td">
+                                <span :class="statusClass(order.payment_status)">
+                                    {{ enums.orderStatusEnumArray[order.status] }}
+                                       {{ enums.paymentStatusEnumArray[order.payment_status] }}
+                                </span>
                             </td>
                             <td class="db-table-body-td">
                                 <span :class="orderStatusClass(order.status)">
@@ -168,6 +175,7 @@ import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from "dat
 import statusEnum from "../../../enums/modules/statusEnum";
 import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import paymentStatusEnum from "../../../enums/modules/paymentStatusEnum";
 
 export default {
     name: "TableOrderListComponent",
@@ -234,6 +242,10 @@ export default {
                     [orderTypeEnum.DELIVERY]: this.$t("label.delivery"),
                     [orderTypeEnum.TAKEAWAY]: this.$t("label.takeaway"),
                     [orderTypeEnum.DINING_TABLE]: this.$t("label.dining_table"),
+                },
+                paymentStatusEnumArray: {
+                    [paymentStatusEnum.PAID]: this.$t("label.paid"),
+                    [paymentStatusEnum.UNPAID]: this.$t("label.unpaid")
                 },
             },
             printLoading: true,
