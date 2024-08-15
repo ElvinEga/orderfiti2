@@ -108,7 +108,7 @@
             </div>
 
             <div class="db-table-responsive">
-                <table class="db-table stripe" id="print" :dir="direction">
+                <table class="db-table stripe" id="print" :dir="direction" v-if="items.length > 0">
                     <thead class="db-table-head">
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">
@@ -155,6 +155,12 @@
                         </tr>
                     </tbody>
                 </table>
+                <div v-else>
+                    <img class="mb-8 w-full max-w-[220px]" :src="setting.image_four_zero_four_page" alt="Items not found">
+                    <h3 class="capitalize text-[26px] font-medium leading-[40px] mb-2">{{ $t('message.empty_items') }}</h3>
+                    <p class="text-lg font-normal leading-[34px] mb-8">{{ $t('message.add_template')}}</p>
+                    <ItemCreateComponent :props="props" v-if="permissionChecker('items_create')" />
+                </div>
             </div>
 
             <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-6">
@@ -300,6 +306,9 @@ export default {
         },
         direction: function () {
             return this.$store.getters['frontendLanguage/show'].display_mode === displayModeEnum.RTL ? 'rtl' : 'ltr';
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
         },
 
     },

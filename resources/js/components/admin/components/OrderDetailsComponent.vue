@@ -99,6 +99,8 @@
                                     <p v-if="item.status === 1" class="inline-flex items-center mt-2 gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-red-500 text-white">New</p>
 
                                     <h3 class="text-sm font-semibold text-gray-500 mt-3">{{ item.order_datetime }}</h3>
+                                    <p class="text-xs font-light font-rubik mb-1"><span class="text-heading">{{ order.delivery_time }}</span>
+                                        <span class="font-bold">&nbsp; ({{ order.delivery_period }})&nbsp; </span></p>
                                 </div>
                             </div>
                             <ul class="flex flex-col gap-1.5 mt-2">
