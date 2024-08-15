@@ -156,7 +156,7 @@
                     </tbody>
                 </table>
                 <div class="pt-16 pb-12 flex flex-col items-center justify-center text-center" v-else>
-                    <img class="mb-8 w-full max-w-[220px]" :src="setting.image_four_zero_four_page" alt="Items not found">
+                    <img class="mb-8 w-full max-w-[220px]" :src="setting.image_empty" alt="Items not found">
                     <h3 class="capitalize text-[26px] font-medium leading-[40px] mb-2">{{ $t('message.empty_items') }}</h3>
                     <p class="text-lg font-normal leading-[34px] mb-8">{{ $t('message.add_template')}}</p>
                     <ItemCreateComponent :props="props" v-if="permissionChecker('items_create')" />

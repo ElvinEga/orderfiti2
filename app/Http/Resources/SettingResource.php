@@ -86,6 +86,7 @@ class SettingResource extends JsonResource
             'image_order_returned'                 => asset('/images/order/returned.gif'),
             'image_four_zero_four_page'            => asset('/images/accessible/404.gif'),
             'image_four_zero_three_page'           => asset('/images/accessible/403.gif'),
+            'image_empty'                          => asset('/images/accessible/empty.jpg'),
         ];
     }
 
