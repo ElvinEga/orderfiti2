@@ -15,10 +15,10 @@
 
 <body>
 <main class="main-wrapper relative overflow-hidden">
-    <section class="section-features p-28" id="about">
+    <section class="section-features p-28" id="about" style="padding: 48px;">
         <div class="section-space-bottom">
             <div class="container-default">
-                <strong class="text-5xl">Privacy Policy</strong>
+                <h1 class="text-5xl">Privacy Policy</h1>
                 <p>This privacy policy applies to the Orderfiti app (hereby referred to as "Application") for mobile devices that was created by Twisac (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".</p>
                 <br><strong>Information Collection and Use</strong>
                 <p>The Application collects information when you download and use it. This information may include information such as</p>
