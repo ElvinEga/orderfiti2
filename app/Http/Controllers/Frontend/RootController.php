@@ -18,4 +18,9 @@ class RootController extends Controller
         $favIcon = $themeFavicon->faviconLogo;
         return view('master', ['analytics' => $analytics, 'favicon' => $favIcon]);
     }
+
+    public function policy(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('policy');
+    }
 }

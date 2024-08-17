@@ -34,6 +34,7 @@ Route::prefix('install')->name('installer.')->middleware(['web'])->group(functio
 
 
 Route::get('/', [RootController::class, 'index'])->middleware(['installed'])->name('home');
+Route::get('/policy', [RootController::class, 'policy'])->middleware(['web'])->name('policy');
 Route::prefix('payment')->name('payment.')->middleware(['installed'])->group(function () {
     Route::get('/{order}/pay', [PaymentController::class, 'index'])->name('index');
     Route::post('/{order}/pay', [PaymentController::class, 'payment'])->name('store');
