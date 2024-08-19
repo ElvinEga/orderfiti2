@@ -80,7 +80,7 @@ export default {
     },
     computed: {
         addButton: function () {
-            return { title: this.$t('button.add_item') };
+            return { title: this.$t('button.select_template') };
         },
         templates: function () {
             return this.$store.getters['template/lists'];

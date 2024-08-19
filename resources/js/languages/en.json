@@ -637,7 +637,8 @@
         "add_token": "Add Token",
         "qr": "QR",
         "send_mail": "Send Mail",
-        "change_language": "Change Language"
+        "change_language": "Change Language",
+        "select_template": "Select Template"
     },
     "number": {
         "10": "10",
