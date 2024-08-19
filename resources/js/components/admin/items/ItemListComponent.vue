@@ -288,6 +288,11 @@ export default {
         }).catch((err) => {
             this.loading.isActive = false;
         });
+        this.$store.dispatch('template/lists', {
+            order_column: 'sort',
+            order_type: 'asc',
+            status: statusEnum.ACTIVE
+        });
     },
     computed: {
         items: function () {

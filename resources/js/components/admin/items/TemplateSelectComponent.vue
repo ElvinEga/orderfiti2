@@ -26,7 +26,7 @@
                         <div class="flex flex-wrap gap-3 mt-4">
                             <button type="submit" class="db-btn py-2 text-white bg-primary">
                                 <i class="lab lab-save"></i>
-                                <span>{{ $t("label.select") }}</span>
+                                <span>{{ $t("button.select") }}</span>
                             </button>
                             <button type="button" class="modal-btn-outline modal-close" @click="reset">
                                 <i class="lab lab-close"></i>
@@ -91,7 +91,7 @@ export default {
     },
     mounted() {
         this.loading.isActive = true;
-        this.$store.dispatch('itemCategory/lists', {
+        this.$store.dispatch('template/lists', {
             order_column: 'sort',
             order_type: 'asc',
             status: statusEnum.ACTIVE
