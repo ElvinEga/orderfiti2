@@ -92,8 +92,6 @@ export default {
     mounted() {
         this.loading.isActive = true;
         this.$store.dispatch('template/lists', {
-            order_column: 'sort',
-            order_type: 'asc',
             status: statusEnum.ACTIVE
         });
         this.$store.dispatch('tax/lists', {

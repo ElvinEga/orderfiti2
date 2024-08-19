@@ -289,8 +289,6 @@ export default {
             this.loading.isActive = false;
         });
         this.$store.dispatch('template/lists', {
-            order_column: 'sort',
-            order_type: 'asc',
             status: statusEnum.ACTIVE
         });
     },
