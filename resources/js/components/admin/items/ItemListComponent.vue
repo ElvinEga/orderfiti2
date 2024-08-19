@@ -14,7 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <TemplateSelectComponent :props="props" v-if="permissionChecker('items_create')" />
+                    <ItemCreateComponent :props="props" v-if="permissionChecker('items_create')" />
                 </div>
             </div>
 
@@ -175,7 +175,6 @@
 </template>
 <script>
 import LoadingComponent from "../components/LoadingComponent";
-import ItemCreateComponent from "./ItemCreateComponent";
 import alertService from "../../../services/alertService";
 import statusEnum from "../../../enums/modules/statusEnum";
 import askEnum from "../../../enums/modules/askEnum";
@@ -194,10 +193,12 @@ import PrintComponent from "../components/buttons/export/PrintComponent";
 import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
 import TemplateSelectComponent from "./TemplateSelectComponent.vue";
+import ItemCreateComponent from "./ItemCreateComponent.vue";
 
 export default {
     name: "ItemListComponent",
     components: {
+        ItemCreateComponent,
         TemplateSelectComponent,
         TableLimitComponent,
         PaginationSMBox,
