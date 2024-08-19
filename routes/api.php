@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PosOrderController;
+use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Auth\DeactivateController;
 use App\Http\Controllers\Auth\SignupController;
 use App\Http\Controllers\Frontend\SettingController;
@@ -209,6 +210,15 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
             Route::match(['post', 'put', 'patch'], '/{itemCategory}', [ItemCategoryController::class, 'update']);
             Route::delete('/{itemCategory}', [ItemCategoryController::class, 'destroy']);
             Route::post('/sort/category', [ItemCategoryController::class, 'sortCategory']);
+        });
+
+        Route::prefix('template')->name('template.')->group(function () {
+            Route::get('/', [TemplateController::class, 'index']);
+            Route::get('/show/{template}', [TemplateController::class, 'show']);
+            Route::post('/', [TemplateController::class, 'store']);
+            Route::match(['post', 'put', 'patch'], '/{template}', [TemplateController::class, 'update']);
+            Route::delete('/{template}', [TemplateController::class, 'destroy']);
+            Route::post('/sort/template', [TemplateController::class, 'sortCategory']);
         });
 
         Route::prefix('item-attribute')->name('item-attribute.')->group(function () {

@@ -14,7 +14,7 @@
                             <ExcelComponent :method="xls" />
                         </div>
                     </div>
-                    <ItemCreateComponent :props="props" v-if="permissionChecker('items_create')" />
+                    <TemplateSelectComponent :props="props" v-if="permissionChecker('items_create')" />
                 </div>
             </div>
 
@@ -159,7 +159,7 @@
                     <img class="mb-8 w-full max-w-[220px]" :src="setting.image_empty" alt="Items not found">
                     <h3 class="capitalize text-[26px] font-medium leading-[40px] mb-2">{{ $t('message.empty_items') }}</h3>
                     <p class="text-lg font-normal leading-[34px] mb-8">{{ $t('message.add_template')}}</p>
-                    <ItemCreateComponent :props="props" v-if="permissionChecker('items_create')" />
+                    <TemplateSelectComponent :props="props" v-if="permissionChecker('items_create')" />
                 </div>
             </div>
 
@@ -193,15 +193,16 @@ import ExportComponent from "../components/buttons/export/ExportComponent";
 import PrintComponent from "../components/buttons/export/PrintComponent";
 import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import displayModeEnum from "../../../enums/modules/displayModeEnum";
+import TemplateSelectComponent from "./TemplateSelectComponent.vue";
 
 export default {
     name: "ItemListComponent",
     components: {
+        TemplateSelectComponent,
         TableLimitComponent,
         PaginationSMBox,
         PaginationBox,
         PaginationTextComponent,
-        ItemCreateComponent,
         LoadingComponent,
         SmIconSidebarModalEditComponent,
         SmIconDeleteComponent,

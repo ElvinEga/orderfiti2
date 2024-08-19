@@ -90,6 +90,7 @@ import {tableDiningTable} from "./modules/table/tableDiningTable";
 import {tableDiningOrder} from "./modules/table/tableDiningOrder";
 import { tableOrder } from './modules/tableOrder';
 import { subscriber } from './modules/subscriber';
+import { template } from './modules/template';
 
 
 export default new createStore({
@@ -185,7 +186,8 @@ export default new createStore({
         tableDiningTable,
         tableDiningOrder,
         tableOrder,
-        subscriber
+        subscriber,
+        template
     },
     plugins: [
         createPersistedState({

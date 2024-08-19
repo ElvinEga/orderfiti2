@@ -80,7 +80,8 @@
         "zones": "Zones",
         "zone": "Zone",
         "table_orders": "Orders",
-        "subscribers": "Regulars"
+        "subscribers": "Regulars",
+        "templates": "Templates"
     },
     "label": {
         "zone": "Zone",
@@ -344,6 +345,7 @@
         "search_branch": "Search Shop",
         "select_customer": "Select Customer",
         "search_customer": "Search Customer",
+        "select_template": "Select Template",
         "preferred_time": "Preferred Time Frame For Service",
         "today": "today",
         "tomorrow": "Tomorrow",
@@ -550,6 +552,7 @@
     "button": {
         "add": "Add",
         "save": "Save",
+        "select": "Select",
         "edit": "Edit",
         "delete": "Delete",
         "view": "View",
