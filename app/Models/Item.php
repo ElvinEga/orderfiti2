@@ -49,11 +49,11 @@ class Item extends Model implements HasMedia
     ];
 
 
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::addGlobalScope(new BranchScope());
-    }
+//    protected static function boot(): void
+//    {
+//        parent::boot();
+//        static::addGlobalScope(new BranchScope());
+//    }
 
     public function getThumbAttribute(): string
     {
