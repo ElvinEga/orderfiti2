@@ -64,7 +64,7 @@ class FrontendOrder extends Model
 
     public function orderItems(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
     public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
