@@ -56,9 +56,15 @@ class FrontendOrder extends Model
         'source'           => 'string'
     ];
 
+//    protected static function boot(): void
+//    {
+//        parent::boot();
+//        static::addGlobalScope(new BranchScope());
+//    }
+
     public function orderItems(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(OrderItem::class, 'order_id', 'id');
+        return $this->hasMany(OrderItem::class);
     }
 
     public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

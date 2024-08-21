@@ -237,7 +237,7 @@ class FrontendOrderService
      * @throws Exception
      */
 
-    public function showUnpaidOrder(): Order|null
+    public function showUnpaidOrder(): FrontendOrder|null
     {
         try {
                 // Check if there is any order within the last 12 hours with payment_status not 5
