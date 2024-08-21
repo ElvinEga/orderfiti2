@@ -197,20 +197,38 @@ class ItemService
         }
     }
 
-    public function featuredItems()
+    public function featuredItems(PaginateRequest $request)
     {
+        $branchId = $request->input('branch_id'); // Assuming branch_id is sent in the request as a query parameter
+
         try {
-            return Item::where(['is_featured' => Ask::YES, 'status' => Status::ACTIVE])->inRandomOrder()->limit(8)->get();
+            $query = Item::where(['is_featured' => Ask::YES, 'status' => Status::ACTIVE]);
+
+            if ($branchId) {
+                $query->where('branch_id', $branchId);
+            }
+
+            return $query->inRandomOrder()->limit(8)->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
 
-    public function mostPopularItems()
+    public function mostPopularItems(PaginateRequest $request)
     {
+        $branchId = $request->query('branch_id'); // Assuming branch_id is sent in the request as a query parameter
+
         try {
-            return Item::withCount('orders')->where(['status' => Status::ACTIVE])->orderBy('orders_count', 'desc')->limit(6)->get();
+            $query = Item::withCount('orders')->where(['status' => Status::ACTIVE]);
+
+            if ($branchId) {
+                $query->whereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            }
+
+            return $query->orderBy('orders_count', 'desc')->limit(6)->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

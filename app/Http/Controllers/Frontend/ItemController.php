@@ -28,21 +28,21 @@ class ItemController extends Controller
         }
     }
 
-    public function featuredItems(
+    public function featuredItems(PaginateRequest $request
     ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return NormalItemResource::collection($this->itemService->featuredItems());
+            return NormalItemResource::collection($this->itemService->featuredItems($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
 
-    public function mostPopularItems(
+    public function mostPopularItems(PaginateRequest $request
     ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return NormalItemResource::collection($this->itemService->mostPopularItems());
+            return NormalItemResource::collection($this->itemService->mostPopularItems($request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
