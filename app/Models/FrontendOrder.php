@@ -20,6 +20,7 @@ class FrontendOrder extends Model
         'subtotal',
         'discount',
         'delivery_charge',
+        'total_tax',
         'total',
         'order_type',
         'order_datetime',
@@ -43,6 +44,7 @@ class FrontendOrder extends Model
         'subtotal'         => 'decimal:6',
         'discount'         => 'decimal:6',
         'delivery_charge'  => 'decimal:6',
+        'total_tax'        => 'decimal:6',
         'total'            => 'decimal:6',
         'order_type'       => 'integer',
         'order_datetime'   => 'datetime',
@@ -69,7 +71,7 @@ class FrontendOrder extends Model
 
     public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Item::class, 'order_items');
+        return $this->belongsToMany(Item::class, 'order_items')->withTrashed();
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
