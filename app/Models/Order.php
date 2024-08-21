@@ -58,11 +58,11 @@ class Order extends Model
         'source'           => 'integer'
     ];
 
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::addGlobalScope(new BranchScope());
-    }
+//    protected static function boot(): void
+//    {
+//        parent::boot();
+//        static::addGlobalScope(new BranchScope());
+//    }
 
     public function orderItems(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

@@ -23,7 +23,7 @@ class OrderItemResource extends JsonResource
             'order_id'                         => $this->order_id,
             'branch_id'                        => $this->branch_id,
             'item_id'                          => $this->orderItem?->id,
-            'item_name'                        => $this->item_name,
+            'item_name'                        => $this->orderItem?->name,
             'item_image'                       => $this->orderItem?->thumb,
             'quantity'                         => $this->quantity,
             'discount'                         => AppLibrary::currencyAmountFormat($this->discount),
