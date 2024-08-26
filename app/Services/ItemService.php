@@ -52,12 +52,12 @@ class ItemService
 
             if ($branch_id != 0) {
                 $query->where('branch_id', $branch_id);
+            }else{
+                $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
+                $default_id = $defaultAccess->default_id;
+                $query->where('branch_id', $default_id);
+
             }
-//            }else{
-//                $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
-//                $query->where('branch_id', $defaultAccess);
-//
-//            }
 
             return $query->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
