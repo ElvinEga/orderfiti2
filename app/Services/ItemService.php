@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Enums\Ask;
 use App\Enums\Status;
+use App\Models\DefaultAccess;
 use Exception;
 use App\Models\Item;
 use App\Models\Branch;
@@ -46,7 +47,18 @@ class ItemService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
+            $branch_id = auth()->user()->branch_id;
+            $query = Item::with('media', 'category', 'tax');
+
+            if ($branch_id != 0) {
+                $query->where('branch_id', $branch_id);
+            }else{
+                $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
+                $query->where('branch_id', $defaultAccess);
+
+            }
+
+            return $query->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->itemFilter)) {
                         if ($key == "except") {
