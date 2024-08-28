@@ -47,16 +47,19 @@ class ItemService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            $branch_id = auth()->user()->branch_id;
+//            $branch_id = auth()->user()->branch_id;
             $query = Item::with('media', 'category', 'tax');
 
-            if ($branch_id != 0) {
-                $query->where('branch_id', $branch_id);
-            }else{
-                $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
-                $default_id = $defaultAccess->default_id;
-                $query->where('branch_id', $default_id);
+            if (!$request->has('branch_id')) {
+                $branch_id = auth()->user()->branch_id;
 
+                if ($branch_id != 0) {
+                    $query->where('branch_id', $branch_id);
+                } else {
+                    $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
+                    $default_id = $defaultAccess->default_id;
+                    $query->where('branch_id', $default_id);
+                }
             }
 
             return $query->where(function ($query) use ($requests) {
