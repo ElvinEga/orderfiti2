@@ -409,7 +409,6 @@ class OrderService
 //                    ->first();
 //
                 $previousTotal = 0;
-                $previousSubTotal = 0;                $previousTotal = 0;
                 $previousSubTotal = 0;
 //                if ($existingOrder) {
 //                    $this->order = $existingOrder;
