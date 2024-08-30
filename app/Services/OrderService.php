@@ -414,7 +414,6 @@ class OrderService
                     $this->order = $existingOrder;
                     $previousTotal = $this->order->total ?? 0;
                     $previousSubTotal = $this->order->subtotal ?? 0;
-                    Log::Info('Error: ' . "existing Order");
                 } else {
                     $this->order = FrontendOrder::create(
                         $request->validated() + [
@@ -424,7 +423,6 @@ class OrderService
                             'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
                         ]
                     );
-                    Log::Info('Error: ' . "New Order");
                 }
 
                 $i            = 0;
@@ -476,15 +474,13 @@ class OrderService
 
 
                 if (!$existingOrder) {
-                    Log::Info('Error: ' . "exist New Order");
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
-                    Log::Info('Error: ' . "Serial created");
                 }
 
                 $branchId = $request->branch_id;
 
 //                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
-//        //        $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->where('branch_id', $branchId)->get();
+        //        $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->where('branch_id', $branchId)->get();
 //                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
 //                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
 //                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
@@ -500,8 +496,6 @@ class OrderService
 //                    $this->order->delivery_boy_id = $deliveryBoy->id;
 //                }
                 $this->order->delivery_boy_id = 4;
-                Log::Info('Error: ' . "Delivery");
-
                 $totalCredit = $previousTotal + $totalPrice;
                 $this->order->total_tax += $totalTax;
                 $this->order->total = $totalCredit;
@@ -512,7 +506,6 @@ class OrderService
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
-                    Log::Info('Error: ' . "Balance");
 //                    $user->balance = ($user->balance + $totalPrice);
                     $user->balance = $totalCredit;
                     $user->save();
@@ -527,8 +520,7 @@ class OrderService
             return $this->order;
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::error('Error: ' . $exception->getMessage());
-            Log::error('Trace: ' . $exception->getTraceAsString());
+            Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
