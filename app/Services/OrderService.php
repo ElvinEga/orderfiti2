@@ -414,6 +414,7 @@ class OrderService
                     $this->order = $existingOrder;
                     $previousTotal = $this->order->total ?? 0;
                     $previousSubTotal = $this->order->subtotal ?? 0;
+                    Log::Info('Error: ' . "existing Order");
                 } else {
                     $this->order = FrontendOrder::create(
                         $request->validated() + [
@@ -423,6 +424,7 @@ class OrderService
                             'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
                         ]
                     );
+                    Log::Info('Error: ' . "New Order");
                 }
 
                 $i            = 0;
@@ -474,7 +476,9 @@ class OrderService
 
 
                 if (!$existingOrder) {
+                    Log::Info('Error: ' . "exist New Order");
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
+                    Log::Info('Error: ' . "Serial created");
                 }
 
                 $branchId = $request->branch_id;
@@ -495,6 +499,7 @@ class OrderService
                     $deliveryBoy = $deliveryBoys->random();
                     $this->order->delivery_boy_id = $deliveryBoy->id;
                 }
+                Log::Info('Error: ' . "Delivery");
 
                 $totalCredit = $previousTotal + $totalPrice;
                 $this->order->total_tax += $totalTax;
@@ -506,6 +511,7 @@ class OrderService
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
+                    Log::Info('Error: ' . "Balance");
 //                    $user->balance = ($user->balance + $totalPrice);
                     $user->balance = $totalCredit;
                     $user->save();
