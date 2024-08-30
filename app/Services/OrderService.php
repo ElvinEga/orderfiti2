@@ -408,8 +408,9 @@ class OrderService
 //                    ->orderBy('created_at', 'desc')
 //                    ->first();
 //
-//                $previousTotal = 0;
-//                $previousSubTotal = 0;
+                $previousTotal = 0;
+                $previousSubTotal = 0;                $previousTotal = 0;
+                $previousSubTotal = 0;
 //                if ($existingOrder) {
 //                    $this->order = $existingOrder;
 //                    $previousTotal = $this->order->total ?? 0;
@@ -424,6 +425,7 @@ class OrderService
 //                        ]
 //                    );
 //                }
+
                 $this->order = FrontendOrder::create(
                     $request->validated() + [
                         'user_id'          => $request->customer_id,
@@ -481,9 +483,9 @@ class OrderService
 
 
 
-                if (!$existingOrder) {
+//                if (!$existingOrder) {
                     $this->order->order_serial_no = date('dmy') . $this->order->id;
-                }
+//                }
 
                 $branchId = $request->branch_id;
 
