@@ -474,7 +474,7 @@ class OrderService
 
 
                 if (!$existingOrder) {
-                    $this->order->order_serial_no = date('dmy') . ($this->order->id ?? 'N/A');
+                    $this->order->order_serial_no = date('dmy') . $this->order->id;
                 }
 
                 $branchId = $request->branch_id;
@@ -520,7 +520,8 @@ class OrderService
             return $this->order;
         } catch (Exception $exception) {
             DB::rollBack();
-            Log::info($exception->getMessage());
+            Log::error('Error: ' . $exception->getMessage());
+            Log::error('Trace: ' . $exception->getTraceAsString());
             throw new Exception($exception->getMessage(), 422);
         }
     }
