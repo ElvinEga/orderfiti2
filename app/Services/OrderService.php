@@ -483,22 +483,23 @@ class OrderService
 
                 $branchId = $request->branch_id;
 
-                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
-        //        $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->where('branch_id', $branchId)->get();
-                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
-                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
-                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
-
-                if ($deliveryBoy) {
-                    $this->order->delivery_boy_id = $deliveryBoy->id;
-                }else if($deliveryBoy2){
-                    $this->order->delivery_boy_id = $deliveryBoy2->id;
-                }else if(!$deliveryBoy3){
-                    $this->order->delivery_boy_id = $deliveryBoy3->id;
-                }else{
-                    $deliveryBoy = $deliveryBoys->random();
-                    $this->order->delivery_boy_id = $deliveryBoy->id;
-                }
+//                $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->get();
+//        //        $deliveryBoys = User::role(EnumRole::DELIVERY_BOY)->where('branch_id', $branchId)->get();
+//                $deliveryBoy3 = $deliveryBoys->where('id', 4)->first();
+//                $deliveryBoy = $deliveryBoys->where('id', 20)->first();
+//                $deliveryBoy2 = $deliveryBoys->where('id', 21)->first();
+//
+//                if ($deliveryBoy) {
+//                    $this->order->delivery_boy_id = $deliveryBoy->id;
+//                }else if($deliveryBoy2){
+//                    $this->order->delivery_boy_id = $deliveryBoy2->id;
+//                }else if(!$deliveryBoy3){
+//                    $this->order->delivery_boy_id = $deliveryBoy3->id;
+//                }else{
+//                    $deliveryBoy = $deliveryBoys->random();
+//                    $this->order->delivery_boy_id = $deliveryBoy->id;
+//                }
+                $this->order->delivery_boy_id = 4;
                 Log::Info('Error: ' . "Delivery");
 
                 $totalCredit = $previousTotal + $totalPrice;
