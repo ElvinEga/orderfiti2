@@ -402,37 +402,28 @@ class OrderService
         try {
             DB::transaction(function () use ($request) {
                 // Check for existing order in the last 12 hours with payment_status not 5
-//                $existingOrder = FrontendOrder::where('user_id', $request->customer_id)
-//                    ->where('created_at', '>=', now()->subHours(12))
-//                    ->where('payment_status', '!=', 5)
-//                    ->orderBy('created_at', 'desc')
-//                    ->first();
-//
+                $existingOrder = FrontendOrder::where('user_id', $request->customer_id)
+                    ->where('created_at', '>=', now()->subHours(12))
+                    ->where('payment_status', '!=', 5)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
                 $previousTotal = 0;
                 $previousSubTotal = 0;
-//                if ($existingOrder) {
-//                    $this->order = $existingOrder;
-//                    $previousTotal = $this->order->total ?? 0;
-//                    $previousSubTotal = $this->order->subtotal ?? 0;
-//                } else {
-//                    $this->order = FrontendOrder::create(
-//                        $request->validated() + [
-//                            'user_id'          => $request->customer_id,
-//                            'status'           => OrderStatus::ACCEPT,
-//                            'order_datetime'   => date('Y-m-d H:i:s'),
-//                            'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
-//                        ]
-//                    );
-//                }
-
-                $this->order = FrontendOrder::create(
-                    $request->validated() + [
-                        'user_id'          => $request->customer_id,
-                        'status'           => OrderStatus::ACCEPT,
-                        'order_datetime'   => date('Y-m-d H:i:s'),
-                        'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
-                    ]
-                );
+                if ($existingOrder) {
+                    $this->order = $existingOrder;
+                    $previousTotal = $this->order->total ?? 0;
+                    $previousSubTotal = $this->order->subtotal ?? 0;
+                } else {
+                    $this->order = FrontendOrder::create(
+                        $request->validated() + [
+                            'user_id'          => $request->customer_id,
+                            'status'           => OrderStatus::ACCEPT,
+                            'order_datetime'   => date('Y-m-d H:i:s'),
+                            'preparation_time' => Settings::group('order_setup')->get('order_setup_food_preparation_time')
+                        ]
+                    );
+                }
 
                 $i            = 0;
                 $totalTax     = 0;
@@ -482,9 +473,9 @@ class OrderService
 
 
 
-//                if (!$existingOrder) {
-                    $this->order->order_serial_no = date('dmy') . $this->order->id;
-//                }
+                if (!$existingOrder) {
+                    $this->order->order_serial_no = date('dmy') . ($this->order->id ?? 'N/A');
+                }
 
                 $branchId = $request->branch_id;
 
