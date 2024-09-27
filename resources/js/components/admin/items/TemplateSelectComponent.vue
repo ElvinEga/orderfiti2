@@ -78,7 +78,6 @@ export default {
                     [askEnum.NO]: this.$t("label.no")
                 }
             },
-            image: "",
             errors: {},
         }
     },
@@ -89,84 +88,34 @@ export default {
         templates: function () {
             return this.$store.getters['template/lists'];
         },
-        taxes: function () {
-            return this.$store.getters['tax/lists'];
-        }
     },
     mounted() {
         this.loading.isActive = true;
         this.$store.dispatch('template/lists', {
             status: statusEnum.ACTIVE
         });
-        this.$store.dispatch('tax/lists', {
-            order_column: 'id',
-            order_type: 'asc'
-        });
         this.loading.isActive = false;
     },
     methods: {
-        changeImage: function (e) {
-            this.image = e.target.files[0];
-        },
         reset: function () {
             appService.sideDrawerHide();
-            this.$store.dispatch('item/reset').then().catch();
             this.errors = {};
-            this.$props.props.form = {
-                name: "",
-                price: "",
-                description: "",
-                caution: "",
-                is_featured: askEnum.YES,
-                item_type: itemTypeEnum.VEG,
-                item_category_id: null,
-                tax_id: null,
-                status: statusEnum.ACTIVE,
-            };
-            if (this.image) {
-                this.image = "";
-                this.$refs.imageProperty.value = null;
-            }
         },
         save: function () {
             try {
                 const fd = new FormData();
-                fd.append('name', this.props.form.name);
-                fd.append('price', this.props.form.price);
-                fd.append('item_category_id', this.props.form.item_category_id == null ? '' : this.props.form.item_category_id);
-                fd.append('tax_id', this.props.form.tax_id == null ? '' : this.props.form.tax_id);
-                fd.append('item_type', this.props.form.item_type);
-                fd.append('is_featured', this.props.form.is_featured);
-                fd.append('description', this.props.form.description);
-                fd.append('caution', this.props.form.caution);
-                fd.append('order', 1);
-                fd.append('status', this.props.form.status);
-                if (this.image) {
-                    fd.append('image', this.image);
-                }
-                const tempId = this.$store.getters['item/temp'].temp_id;
+                fd.append('template_id', this.props.form.template_id);
+                // fd.append('branch_id', this.props.form.price);
+                // const tempId = this.$store.getters['item/temp'].temp_id;
                 this.loading.isActive = true;
-                this.$store.dispatch('item/save', {
+                this.$store.dispatch('template/save', {
                     form: fd,
                     search: this.props.search
                 }).then((res) => {
                     appService.sideDrawerHide();
                     this.loading.isActive = false;
-                    alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.items'));
-                    this.props.form = {
-                        name: "",
-                        price: "",
-                        description: "",
-                        caution: "",
-                        is_featured: askEnum.YES,
-                        item_type: itemTypeEnum.VEG,
-                        item_category_id: null,
-                        tax_id: null,
-                        status: statusEnum.ACTIVE,
-                    };
-                    this.image = "";
-                    this.errors = {};
-                    this.$refs.imageProperty.value = null;
+                    alertService.successFlip((1), this.$t('menu.items'));
+                    location.reload();
                 }).catch((err) => {
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;

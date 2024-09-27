@@ -3,6 +3,8 @@
 namespace App\Services;
 
 
+use App\Models\DefaultAccess;
+use App\Models\Item;
 use Exception;
 use Illuminate\Support\Str;
 use App\Models\Template;
@@ -64,17 +66,96 @@ class TemplateService
     /**
      * @throws Exception
      */
-    public function store(TemplateRequest $request)
+    public function store(TemplateRequest $request): array
     {
         try {
-            $itemCategory = Template::create($request->validated());
-            if ($request->image) {
-                $itemCategory->addMediaFromRequest('image')->toMediaCollection('item-category');
+            $templateId = $request->input('template_id');
+            $branchId = 0;
+
+            if (!$request->has('branch_id')) {
+                $branch_id = auth()->user()->branch_id;
+
+                if ($branch_id != 0) {
+                    $branchId = $branch_id;
+                } else {
+                    $defaultAccess = DefaultAccess::where(['user_id' => auth()->user()->id])->first();
+                    $default_id = $defaultAccess->default_id;
+                    $branchId = $default_id;
+                }
             }
-            return $itemCategory;
+
+            // Find the template
+            $template = Template::findOrFail($templateId);
+
+            // Get the template items
+            $templateItems = $template->templateItems;
+
+            // Begin a database transaction
+            DB::beginTransaction();
+
+            $newItems = [];
+
+            // Create new items based on template items
+            foreach ($templateItems as $templateItem) {
+                $newItem = new Item();
+
+                // Copy relevant fields from template item to new item
+                $newItem->name = $templateItem->name;
+                $newItem->item_category_id = $templateItem->item_category_id;
+                $newItem->branch_id = $branchId;
+                $newItem->slug = $templateItem->slug;
+                $newItem->description = $templateItem->description;
+                $newItem->price = $templateItem->price;
+                $newItem->status = $templateItem->status;
+                $newItem->is_featured = $templateItem->is_featured;
+                $newItem->item_type = $templateItem->item_type;
+                $newItem->order = $templateItem->order;
+                // Add any other fields that need to be copied
+
+                $newItem->save();
+
+                $this->copyMedia($templateItem, $newItem);
+
+
+                $newItems[] = $newItem;
+
+                // If there are any relations or additional data to copy, do it here
+                // For example, if items have media:
+//                 $newItem->addMedia($templateItem->getFirstMedia('item-media')->getPath())
+//                         ->preservingOriginal()
+//                         ->toMediaCollection('item');
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            return $newItems;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    private function copyMedia($sourceItem, $destinationItem): void
+    {
+        $media = DB::table('media')
+            ->where('model_type', 'App\Models\Item')
+            ->where('model_id', $sourceItem->id)
+            ->where('collection_name', 'item')
+            ->get();
+
+        foreach ($media as $mediaItem) {
+            $newMediaId = DB::table('media')->insertGetId([
+                'model_type' => 'App\Models\Item',
+                'model_id' => $destinationItem->id,
+                'uuid' => Str::uuid(),
+                'collection_name' => 'item',
+                'name' => $mediaItem->name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+
         }
     }
 

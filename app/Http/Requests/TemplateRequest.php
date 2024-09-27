@@ -25,14 +25,8 @@ class TemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => [
-                'required',
-                'string',
-                'max:190',
-                Rule::unique("templates", "name")->ignore($this->route('itemCategory.id'))
-            ],
-            'status'      => ['required', 'numeric', 'max:24'],
-            'image'       => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048']
+            'template_id'  => ['required', 'numeric'],
+            'branch_id'        => ['required', 'numeric'],
         ];
     }
 }
