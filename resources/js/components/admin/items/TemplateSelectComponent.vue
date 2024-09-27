@@ -91,7 +91,7 @@ export default {
                 this.loading.isActive = true;
                 this.$store.dispatch('template/save', {
                     form: fd,
-                    // search: this.props.search
+                    search: this.props.search
                 }).then((res) => {
                     appService.modalHide();
                     this.loading.isActive = false;
