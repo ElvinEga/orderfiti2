@@ -46,9 +46,6 @@
 <script>
 import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent";
 import LoadingComponent from "../components/LoadingComponent";
-import itemTypeEnum from "../../../enums/modules/itemTypeEnum";
-import askEnum from "../../../enums/modules/askEnum";
-import statusEnum from "../../../enums/modules/statusEnum";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
 
@@ -60,23 +57,6 @@ export default {
         return {
             loading: {
                 isActive: false
-            },
-            enums: {
-                statusEnum: statusEnum,
-                itemTypeEnum: itemTypeEnum,
-                askEnum: askEnum,
-                statusEnumArray: {
-                    [statusEnum.ACTIVE]: this.$t("label.active"),
-                    [statusEnum.INACTIVE]: this.$t("label.inactive")
-                },
-                itemTypeEnumArray: {
-                    [itemTypeEnum.VEG]: this.$t("label.veg"),
-                    [itemTypeEnum.NON_VEG]: this.$t("label.non_veg")
-                },
-                askEnumArray: {
-                    [askEnum.YES]: this.$t("label.yes"),
-                    [askEnum.NO]: this.$t("label.no")
-                }
             },
             errors: {},
         }
@@ -110,7 +90,7 @@ export default {
                 this.loading.isActive = true;
                 this.$store.dispatch('template/save', {
                     form: fd,
-                    search: this.props.search
+                    // search: this.props.search
                 }).then((res) => {
                     appService.sideDrawerHide();
                     this.loading.isActive = false;

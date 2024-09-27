@@ -26,7 +26,6 @@ class TemplateRequest extends FormRequest
     {
         return [
             'template_id'  => ['required', 'numeric'],
-            'branch_id'        => ['required', 'numeric'],
         ];
     }
 }
