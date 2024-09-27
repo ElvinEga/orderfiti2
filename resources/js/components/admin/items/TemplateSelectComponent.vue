@@ -48,6 +48,7 @@ import SmModalCreateComponent from "../components/buttons/SmModalCreateComponent
 import LoadingComponent from "../components/LoadingComponent";
 import alertService from "../../../services/alertService";
 import appService from "../../../services/appService";
+import statusEnum from "../../../enums/modules/statusEnum";
 
 export default {
     name: "TemplateSelectComponent",
@@ -78,7 +79,7 @@ export default {
     },
     methods: {
         reset: function () {
-            appService.sideDrawerHide();
+            appService.modalHide();
             this.errors = {};
         },
         save: function () {
@@ -92,7 +93,7 @@ export default {
                     form: fd,
                     // search: this.props.search
                 }).then((res) => {
-                    appService.sideDrawerHide();
+                    appService.modalHide();
                     this.loading.isActive = false;
                     alertService.successFlip((1), this.$t('menu.items'));
                     location.reload();
