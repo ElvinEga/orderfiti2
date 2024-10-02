@@ -90,8 +90,7 @@ export default {
                 // const tempId = this.$store.getters['item/temp'].temp_id;
                 this.loading.isActive = true;
                 this.$store.dispatch('template/save', {
-                    form: fd,
-                    search: this.props.search
+                    form: fd
                 }).then((res) => {
                     appService.modalHide();
                     this.loading.isActive = false;

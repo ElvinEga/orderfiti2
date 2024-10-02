@@ -99,7 +99,8 @@ class ItemService
 
             DB::transaction(function () use ($request) {
                 $branch_id = auth()->user()->branch_id;
-                $this->item = Item::create($request->validated() + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
+                $slug = Str::slug($request->name . '_' . $branch_id);
+                $this->item = Item::create($request->validated() + ['slug' => $slug, 'branch_id' => $branch_id]);
                 if ($request->image) {
                     $this->item->addMedia($request->image)->toMediaCollection('item');
                 }
