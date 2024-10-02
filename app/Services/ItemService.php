@@ -124,7 +124,8 @@ class ItemService
         try {
             DB::transaction(function () use ($request, $item) {
                 $branch_id = auth()->user()->branch_id;
-                $item->update($request->validated() + + ['slug' => Str::slug($request->name), 'branch_id' => $branch_id]);
+                $slug = Str::slug($request->name . '_' . $branch_id);
+                $item->update($request->validated() + ['slug' => $slug, 'branch_id' => $branch_id]);
                 if ($request->image) {
                     $item->addMedia($request->image)->toMediaCollection('item');
                 }
