@@ -405,7 +405,7 @@ class OrderService
                 $existingOrder = FrontendOrder::where('user_id', $request->customer_id)
                     ->where('created_at', '>=', now()->subHours(12))
                     ->where('payment_status', '!=', 5)
-                    ->where('branches_id', $request->branch_id)
+                    ->where('branch_id', $request->branch_id)
                     ->orderBy('created_at', 'desc')
                     ->first();
 
