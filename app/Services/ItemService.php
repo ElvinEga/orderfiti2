@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\ChangeImageRequest;
+use Smartisan\Settings\Facades\Settings;
 
 class ItemService
 {
@@ -98,7 +99,8 @@ class ItemService
         try {
 
             DB::transaction(function () use ($request) {
-                $branch_id = auth()->user()->branch_id;
+//                $branch_id = auth()->user()->branch_id;
+                $branch_id = Settings::group('site')->get('site_default_branch');
                 $slug = Str::slug($request->name . '_' . $branch_id);
                 $this->item = Item::create($request->validated() + ['slug' => $slug, 'branch_id' => $branch_id]);
                 if ($request->image) {
