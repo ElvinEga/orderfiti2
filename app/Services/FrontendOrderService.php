@@ -103,6 +103,7 @@ class FrontendOrderService
             DB::transaction(function () use ($request) {
                 $existingOrder = FrontendOrder::where('user_id', Auth::user()->id)
                     ->where('created_at', '>=', now()->subHours(12))
+                    ->where('branch_id', $request->branch_id)
                     ->where('payment_status', '!=', 5)
                     ->orderBy('created_at', 'desc')
                     ->first();
