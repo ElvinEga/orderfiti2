@@ -48,35 +48,38 @@
                 <li>If you do not see a prompt, check your M-Pesa messages or try again.</li>
             </ul>
         </div>
+        <h1 class="text-2xl font-semibold text-gray-800 mt-6">Pay Manually </h1>
+        <p class="text-gray-600 mt-2 mb-6">Enter the verification code sent to your M-Pesa number</p>
+
+        <form id="confirmPaymentForm" method="POST" action="{{ route('payment.confirm', ['order' => $order]) }}">
+            @csrf
+            <div class="mb-6">
+                <label for="verification_code" class="block text-gray-700 font-medium mb-2">Verification Code</label>
+                <input type="text" id="verification_code" name="verification_code" placeholder="Enter verification code"
+                       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p class="text-sm text-gray-500 mt-2">
+                    Check your M-Pesa prompt for the verification code.
+                </p>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-gray-700 font-medium">Amount to Pay: <span class="font-bold">KES {{ number_format($order->total) }}</span></p>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-3 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Confirm Payment
+            </button>
+        </form>
+
+        <a href="{{ route('home') }}"
+                class="py-3 w-full  mt-6 rounded-3xl text-center text-base font-medium bg-primary text-white"
+                id="confirmBtn">
+            Payment Done
+        </a>
     </div>
 
-    <h1 class="text-2xl font-semibold text-gray-800">Pay Manually </h1>
-    <p class="text-gray-600 mt-2 mb-6">Enter the verification code sent to your M-Pesa number</p>
 
-    <form id="confirmPaymentForm" method="POST" action="{{ route('payment.confirm', ['order' => $order]) }}">
-        @csrf
-        <div class="mb-6">
-            <label for="verification_code" class="block text-gray-700 font-medium mb-2">Verification Code</label>
-            <input type="text" id="verification_code" name="verification_code" placeholder="Enter verification code"
-                   class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            <p class="text-sm text-gray-500 mt-2">
-                Check your M-Pesa prompt for the verification code.
-            </p>
-        </div>
-
-        <div class="mb-6">
-            <p class="text-gray-700 font-medium">Amount to Pay: <span class="font-bold">KES {{ number_format($order->total) }}</span></p>
-        </div>
-
-        <button type="submit"
-                class="w-full py-3 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            Confirm Payment
-        </button>
-    </form>
-
-    <div class="text-center mt-6">
-        <a href="{{ route('home') }}" class="text-blue-500 hover:underline">Payment Done</a>
-    </div>
 </div>
 </body>
 
