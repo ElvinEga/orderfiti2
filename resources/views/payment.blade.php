@@ -101,6 +101,9 @@
                     onblur="formatPhoneNumber()"
                 />
                 <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
+               {{ route('payment.success', ['order' => $order, 'paymentGateway' => 'mpesa'])}}
+                </p>
+                <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
                     {{ __('To complete your payment, follow these steps:') }}
                 </p>
                 <ul style="padding-left: 20px; font-size: 14px; color: #777; list-style: disc;">
