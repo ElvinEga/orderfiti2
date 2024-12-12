@@ -72,7 +72,7 @@
             </button>
         </form>
 
-        <button onclick="window.history.back()"
+        <button type="button" onclick="window.history.back()"
                 class="py-3 w-full mt-6 rounded-3xl text-center text-base font-medium bg-primary text-white">
             Payment Done
         </button>
