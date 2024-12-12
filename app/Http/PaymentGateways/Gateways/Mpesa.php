@@ -58,7 +58,7 @@ class Mpesa extends PaymentAbstract
 
             $response = Http::withBasicAuth(
                 Config::get('mpesa.consumer_key'),
-                Config::get('mpesa.consumer_secret')
+                Config::get('mpesa.consumer_secret'))
                 ->withHeaders(['Content-Type' => 'application/json; charset=utf8'])
                 ->post('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
 
