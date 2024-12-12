@@ -131,7 +131,7 @@
             @endif
 
             <div class="py-5 px-4 w-full max-w-3xl mx-auto flex flex-col items-center justify-center">
-                <button onclick="history.back()" class="text-primary" href="{{ route('home') }}">{{ __('all.label.back_to_home') }}</button>
+                <a class="text-primary" href="{{ route('home') }}">{{ __('all.label.back_to_home') }}</a>
             </div>
         </form>
 
