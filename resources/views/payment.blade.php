@@ -88,7 +88,7 @@
                     {{ __('M-Pesa Payment Details') }}
                 </h4>
                 <p style="margin-bottom: 5px; font-size: 16px; color: #555;">
-                    <strong>{{ __('Amount to Pay:') }}</strong> KES {{$order->total}}
+                    <strong>{{ __('Amount to Pay:') }}</strong> KES {{ number_format($order->total) }}
                 </p>
                 <label for="phone_number">{{ __('Enter Phone Number') }}</label>
                 <input

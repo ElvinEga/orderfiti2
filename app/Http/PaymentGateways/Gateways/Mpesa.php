@@ -79,7 +79,7 @@ class Mpesa extends PaymentAbstract
                 "Password" => $password,
                 "Timestamp" => $timestamp,
                 "TransactionType" => "CustomerPayBillOnline",
-                "Amount" => $order->total,
+                "Amount" => number_format($order->total),
                 "PartyA" => $request->phone_number,
                 "PartyB" => Config::get('mpesa.short_code'),
                 "PhoneNumber" => $request->phone_number,
