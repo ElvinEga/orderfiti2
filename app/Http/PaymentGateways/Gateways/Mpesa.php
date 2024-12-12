@@ -51,10 +51,18 @@ class Mpesa extends PaymentAbstract
             }
 
             // Generate Access Token
+//            $response = Http::withBasicAuth(
+//                Config::get('mpesa.consumer_key'),
+//                Config::get('mpesa.consumer_secret')
+//            )->post('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+
             $response = Http::withBasicAuth(
                 Config::get('mpesa.consumer_key'),
                 Config::get('mpesa.consumer_secret')
-            )->post('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+                ->withHeaders(['Content-Type' => 'application/json; charset=utf8'])
+                ->post('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+
+
 
             if ($response->failed()) {
                 throw new Exception('Failed to generate access token');
