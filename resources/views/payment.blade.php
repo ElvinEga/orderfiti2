@@ -82,6 +82,36 @@
                 @endforeach
             @endif
 
+            <!-- Phone Number Input Field -->
+            <div id="phoneNumberField" style="display: none; margin-top: 20px;">
+                <h4 style="margin-bottom: 10px; font-size: 18px; font-weight: bold; color: #333;">
+                    {{ __('M-Pesa Payment Details') }}
+                </h4>
+                <p style="margin-bottom: 5px; font-size: 16px; color: #555;">
+                    <strong>{{ __('Amount to Pay:') }}</strong> KES {{ number_format($order->amount, 2) }}
+                </p>
+                <label for="phone_number">{{ __('Enter Phone Number') }}</label>
+                <input
+                    type="text"
+                    id="phone_number"
+                    name="phone_number"
+                    placeholder="2547XXXXXXXX"
+                    pattern="254[0-9]{9}"
+                    class="w-full py-2 px-4 border rounded"
+                />
+                <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
+                    {{ __('To complete your payment, follow these steps:') }}
+                </p>
+                <ul style="padding-left: 20px; font-size: 14px; color: #777; list-style: disc;">
+                    <li>{{ __('Ensure your phone is switched on and has enough charge.') }}</li>
+                    <li>{{ __('An M-Pesa STK Push will be sent to the phone number you provide.') }}</li>
+                    <li>{{ __('Check your phone for an M-Pesa prompt and enter your M-Pesa PIN to confirm the payment.') }}</li>
+                    <li>{{ __('Once confirmed, the payment will automatically be processed.') }}</li>
+                </ul>
+                <p style="margin-top: 10px; font-size: 14px; font-weight: bold; color: #555;">
+                    {{ __('If you do not receive the STK prompt, please ensure your phone number is correct or try again.') }}
+                </p>
+            </div>
             @if (!blank($paymentGateways))
                 <button type="submit"
                     class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white"
@@ -135,6 +165,27 @@
         const submitGateway = <?= $submitGateway ?>;
     </script>
     <script src="{{ asset('paymentGateways/payment.js') }}"></script>
+    <script>
+        // JavaScript to toggle the phone number input field
+        document.querySelectorAll('.paymentMethod').forEach((input) => {
+            input.addEventListener('change', function () {
+                const phoneNumberField = document.getElementById('phoneNumberField');
+                if (this.value === 'mpesa') { // Assuming 'mpesa' is the slug for M-Pesa
+                    phoneNumberField.style.display = 'block';
+                } else {
+                    phoneNumberField.style.display = 'none';
+                }
+            });
+        });
+
+        // Initialize field based on pre-selected payment method
+        window.addEventListener('DOMContentLoaded', () => {
+            const selectedPaymentMethod = document.querySelector('.paymentMethod:checked');
+            if (selectedPaymentMethod && selectedPaymentMethod.value === 'mpesa') {
+                document.getElementById('phoneNumberField').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 
 </html>
