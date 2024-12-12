@@ -83,7 +83,8 @@ class Mpesa extends PaymentAbstract
                 "PartyA" => $request->phone_number,
                 "PartyB" => Config::get('mpesa.short_code'),
                 "PhoneNumber" => $request->phone_number,
-                "CallBackURL" => Config::get('mpesa.callback_url'),
+//                "CallBackURL" => Config::get('mpesa.callback_url'),
+                "CallBackURL" => route('payment.success', ['order' => $order, 'paymentGateway' => 'mpesa']),
                 "AccountReference" => $order->order_serial_no,
                 "TransactionDesc" => "Payment for Order #{$order->order_serial_no}"
             ];
