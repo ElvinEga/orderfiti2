@@ -53,6 +53,34 @@ class PaymentController extends Controller
         return redirect()->route('home')->with('error', trans('all.message.payment_canceled'));
     }
 
+    public function confirm (
+        Order $order
+    ): \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View | \Illuminate\Contracts\Foundation\Application | \Illuminate\Http\RedirectResponse {
+        $credit          = false;
+        $paymentGateways = PaymentGateway::with('gatewayOptions')->whereNotIn('id', [1])->where(['status' => Activity::ENABLE])->get();
+        $company         = Settings::group('company')->all();
+        $logo            = ThemeSetting::where(['key' => 'theme_logo'])->first();
+        $faviconLogo     = ThemeSetting::where(['key' => 'theme_favicon_logo'])->first();
+        $currency        = Currency::findOrFail(Settings::group('site')->get('site_default_currency'));
+        if ($order?->user?->balance >= $order->total) {
+            $credit = true;
+        }
+
+        if (blank($order->transaction) && $order->payment_status === PaymentStatus::UNPAID) {
+            return view('confirm', [
+                'company'         => $company,
+                'logo'            => $logo,
+                'currency'        => $currency,
+                'faviconLogo'     => $faviconLogo,
+                'paymentGateways' => $paymentGateways,
+                'order'           => $order,
+                'creditAmount'    => AppLibrary::currencyAmountFormat($order?->user?->balance),
+                'credit'          => $credit
+            ]);
+        }
+        return redirect()->route('home')->with('error', trans('all.message.payment_canceled'));
+    }
+
     public function payment(Order $order, PaymentRequest $request)
     {
         if ($this->paymentManagerService->gateway($request->paymentMethod)->status()) {
