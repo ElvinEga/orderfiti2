@@ -60,7 +60,7 @@ class Mpesa extends PaymentAbstract
                 Config::get('mpesa.consumer_key'),
                 Config::get('mpesa.consumer_secret'))
                 ->withHeaders(['Content-Type' => 'application/json; charset=utf8'])
-                ->post('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+                ->get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
 
 
 
