@@ -117,27 +117,7 @@ class Mpesa extends PaymentAbstract
 
     public function success($order, $request): \Illuminate\Http\RedirectResponse
     {
-        try {
-            // Handle M-Pesa callback here.
-            $response = $request->all();
-
-            if (isset($response['Body']['stkCallback']['ResultCode']) && $response['Body']['stkCallback']['ResultCode'] == 0) {
-                $this->paymentService->payment($order, 'mpesa', $response['Body']['stkCallback']['CheckoutRequestID']);
-                return redirect()->route('payment.successful', ['order' => $order])->with('success', trans('all.message.payment_successful'));
-            } else {
-                return redirect()->route('payment.fail', [
-                    'order' => $order,
-                    'paymentGateway' => 'mpesa'
-                ])->with('error', trans('all.message.something_wrong'));
-            }
-        } catch (Exception $e) {
-            Log::info($e->getMessage());
-            DB::rollBack();
-            return redirect()->route('payment.fail', [
-                'order' => $order,
-                'paymentGateway' => 'mpesa'
-            ])->with('error', $e->getMessage());
-        }
+        return redirect()->route('payment.successful', ['order' => $order])->with('success', trans('all.message.payment_successful'));
     }
 
     public function fail($order, $request): \Illuminate\Http\RedirectResponse

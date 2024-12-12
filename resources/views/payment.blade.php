@@ -44,6 +44,15 @@
             </div>
         @endif
 
+        @if (session()->has('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mb-5 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer close-button">
+                    <i class="lab lab-tick-circle-2 margin-top-5-px"></i>
+                </span>
+            </div>
+        @endif
+
         <form id="paymentForm" method="POST" action="{{ route('payment.store', ['order' => $order]) }}">
             @csrf
             <fieldset class="payment-fieldset">
@@ -101,9 +110,6 @@
                     onblur="formatPhoneNumber()"
                 />
                 <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
-               {{ route('payment.success', ['order' => $order, 'paymentGateway' => 'mpesa'])}}
-                </p>
-                <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
                     {{ __('To complete your payment, follow these steps:') }}
                 </p>
                 <ul style="padding-left: 20px; font-size: 14px; color: #777; list-style: disc;">
@@ -112,7 +118,7 @@
                     <li>{{ __('Check your phone for an M-Pesa prompt and enter your M-Pesa PIN to confirm the payment.') }}</li>
                     <li>{{ __('Once confirmed, the payment will automatically be processed.') }}</li>
                 </ul>
-                <p style="margin-top: 10px; font-size: 14px; font-weight: bold; color: #555;">
+                <p style="margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold; color: #555;">
                     {{ __('If you do not receive the STK prompt, please ensure your phone number is correct or try again.') }}
                 </p>
             </div>
