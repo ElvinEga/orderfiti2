@@ -95,8 +95,8 @@ class Mpesa extends PaymentAbstract
                 throw new Exception('Payment request failed: ' . $paymentResponse->body());
             }
 
-            return redirect()->route('payment.index', ['order' => $order, 'paymentGateway' => 'mpesa'])
-                ->with('success', 'Payment request sent. Complete payment on your phone.');
+            return redirect()->route('payment.confirm', ['order' => $order, 'paymentGateway' => 'mpesa']);
+
         } catch (Exception $e) {
             Log::info($e->getMessage());
             return redirect()->route('payment.index', [

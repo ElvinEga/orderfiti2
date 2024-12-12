@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <h1 class="text-2xl font-semibold text-gray-800">Confirm Your Payment</h1>
+    <h1 class="text-2xl font-semibold text-gray-800">Pay Manually </h1>
     <p class="text-gray-600 mt-2 mb-6">Enter the verification code sent to your M-Pesa number</p>
 
     <form id="confirmPaymentForm" method="POST" action="{{ route('payment.confirm', ['order' => $order]) }}">
@@ -75,7 +75,7 @@
     </form>
 
     <div class="text-center mt-6">
-        <a href="{{ route('home') }}" class="text-blue-500 hover:underline">Back to Home</a>
+        <a href="{{ route('home') }}" class="text-blue-500 hover:underline">Payment Done</a>
     </div>
 </div>
 </body>
