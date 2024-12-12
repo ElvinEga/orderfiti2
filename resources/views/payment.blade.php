@@ -96,8 +96,9 @@
                     id="phone_number"
                     name="phone_number"
                     placeholder="2547XXXXXXXX"
-                    pattern="254[0-9]{9}"
+                    pattern="254[0-9]{9}|0[0-9]{9}"
                     class="w-full py-2 px-4 border rounded"
+                    onblur="formatPhoneNumber()"
                 />
                 <p style="margin-bottom: 10px; font-size: 14px; color: #777;">
                     {{ __('To complete your payment, follow these steps:') }}
@@ -165,6 +166,28 @@
         const submitGateway = <?= $submitGateway ?>;
     </script>
     <script src="{{ asset('paymentGateways/payment.js') }}"></script>
+    <script>
+        /**
+         * Format phone number input to the international format (254XXXXXXXXX)
+         */
+        function formatPhoneNumber() {
+            const phoneInput = document.getElementById('phone_number');
+            let phoneNumber = phoneInput.value.trim();
+
+            // Check if the number starts with '0' and has 10 digits
+            if (phoneNumber.startsWith('0') && phoneNumber.length === 10) {
+                phoneNumber = '254' + phoneNumber.substring(1); // Replace '0' with '254'
+            }
+
+            // Update the input field with the formatted number
+            phoneInput.value = phoneNumber;
+        }
+
+        // Ensure the phone number is formatted correctly before form submission
+        document.getElementById('paymentForm').addEventListener('submit', function (event) {
+            formatPhoneNumber(); // Call the function to ensure the phone number is in the correct format
+        });
+    </script>
     <script>
         // JavaScript to toggle the phone number input field
         document.querySelectorAll('.paymentMethod').forEach((input) => {
