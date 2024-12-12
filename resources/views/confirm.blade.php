@@ -72,11 +72,11 @@
             </button>
         </form>
 
-        <a href="{{ route('home') }}"
+        <button  onclick="window.close()"
                 class="py-3 w-full  mt-6 rounded-3xl text-center text-base font-medium bg-primary text-white"
                 id="confirmBtn">
             Payment Done
-        </a>
+        </button>
     </div>
 
 
