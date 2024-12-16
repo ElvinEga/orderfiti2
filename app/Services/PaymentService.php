@@ -65,14 +65,17 @@ class PaymentService
             $user = User::find($order->user_id);
             if ($user) {
                 // Check if a balance record exists for the user and branch
-                $balance = Balance::firstOrCreate(
-                    ['user_id' => $user->id, 'branch_id' => $order->branch_id],
-                    ['balance' => 0, 'order_id' => $order->id]
-                );
+                $balance = Balance::where('user_id', $user->id)
+                    ->where('order_id', $order->id)
+                    ->first();
 
-                // Update the balance
-                $balance->balance += $order->total;
-                $balance->save();
+                if ($balance) {
+                    // Update the balance
+                    $balance->balance += $order->total;
+                    $balance->save();
+                }
+
+
 
                 // Optionally, update the user's balance if needed
                 $user->balance = ($user->balance + $order->total);
