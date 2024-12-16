@@ -32,7 +32,7 @@ class PaymentService
 
             if ($balance) {
                 // Update the balance
-                $balance->balance += $order->total;
+                $balance->balance = 0;
                 $balance->save();
             }
 
