@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 
+use App\Libraries\AppLibrary;
 use App\Models\Balance;
 use Illuminate\Http\Request;
 use App\Services\ProfileService;
@@ -54,7 +55,7 @@ class ProfileController extends Controller
                 'data' => [
                     'user_id' => $user->id,
                     'branch_id' => $branchId,
-                    'balance' => $balance->balance,
+                    'balance' => AppLibrary::flatAmountFormat($balance->balance),
                 ]
             ], 200);
         } catch (\Exception $exception) {
