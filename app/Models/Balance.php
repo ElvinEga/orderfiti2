@@ -19,16 +19,16 @@ class Balance extends Model
         'order_id' => 'integer',
     ];
 
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::addGlobalScope(new BranchScope());
-    }
+//    protected static function boot(): void
+//    {
+//        parent::boot();
+//        static::addGlobalScope(new BranchScope());
+//    }
 
 
-    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
-    }
+//    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(Branch::class);
+//    }
 
 }
