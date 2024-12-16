@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Balance;
 use App\Models\CapturePaymentNotification;
 use Exception;
 use App\Models\Tax;
@@ -512,6 +513,22 @@ class OrderService
                     $user->save();
                 }
 
+                if ($user) {
+                    // Check if a balance record exists for the user and branch
+                    $balance = Balance::firstOrCreate(
+                        ['user_id' => $user->id, 'branch_id' => $this->order->id],
+                        ['balance' => 0, 'order_id' => $this->order->id]
+                    );
+
+                    // Update the balance in the Balance model
+                    $balance->balance = $totalCredit;
+                    $balance->save();
+
+                    // Update the user's balance
+                    $user->balance = $totalCredit;
+                    $user->save();
+                }
+
                 SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
                 SendOrderGotPush::dispatch(['order_id' => $this->order->id]);
@@ -656,6 +673,22 @@ class OrderService
                 $order->payment_status = PaymentStatus::PAID;
                 $user = User::find($order->user_id);
                 if ($user) {
+                    // Check if a balance record exists for the user and branch
+                    $balance = Balance::where('user_id', $user->id)
+                        ->where('order_id', $order->id)
+                        ->first();
+
+                    if ($balance) {
+                        // Update the balance
+                        $balance->balance += $order->total;
+                        $balance->save();
+                    }
+
+                    // Update the balance in the Balance model
+//                    $balance->balance += $order->total;
+//                    $balance->save();
+
+                    // Set the user's balance to 0
                     $user->balance = 0;
                     $user->save();
                 }
@@ -697,12 +730,28 @@ class OrderService
             ]);
                     if (!blank($token)) {
                         $user = User::find($order->user_id);
+
                         if ($user) {
-                            $user->balance = ($user->balance - $order->total);
+                            // Check if a balance record exists for the user and branch
+                            $balance = Balance::where('user_id', $user->id)
+                                ->where('order_id', $order->id)
+                                ->first();
+
+                            if ($balance) {
+                                // Update the balance
+                                $balance->balance -= $order->total;
+                                $balance->save();
+                            }
+
+
+                            $user->balance -= $order->total;
                             $user->save();
+
+                            // Instantiate the PaymentService and call the payment method
                             $paymentService = new PaymentService();
-                            $paymentService -> payment($order, 'credit', $token);
+                            $paymentService->payment($order, 'credit', $token);
                         }
+
                     }
 //            $order->payment_status = PaymentStatus::PAID;
 //            $order->save();

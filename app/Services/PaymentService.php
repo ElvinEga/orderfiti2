@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\PaymentStatus;
+use App\Models\Balance;
 use App\Models\Transaction;
 use App\Models\User;
 
@@ -24,6 +25,19 @@ class PaymentService
 
         $user = User::find($order->user_id);
         if ($user) {
+            // Check if a balance record exists for the user and branch
+            $balance = Balance::where('user_id', $user->id)
+                ->where('order_id', $order->id)
+                ->first();
+
+            if ($balance) {
+                // Update the balance
+                $balance->balance += $order->total;
+                $balance->save();
+            }
+
+
+            // Set the user's balance to 0
             $user->balance = 0;
             $user->save();
         }
@@ -50,6 +64,17 @@ class PaymentService
 
             $user = User::find($order->user_id);
             if ($user) {
+                // Check if a balance record exists for the user and branch
+                $balance = Balance::firstOrCreate(
+                    ['user_id' => $user->id, 'branch_id' => $order->branch_id],
+                    ['balance' => 0, 'order_id' => $order->id]
+                );
+
+                // Update the balance
+                $balance->balance += $order->total;
+                $balance->save();
+
+                // Optionally, update the user's balance if needed
                 $user->balance = ($user->balance + $order->total);
                 $user->save();
             }

@@ -3,6 +3,7 @@
 namespace App\Http\PaymentGateways\Gateways;
 
 use App\Enums\Activity;
+use App\Models\Balance;
 use App\Models\CapturePaymentNotification;
 use App\Models\PaymentGateway;
 use App\Models\User;
@@ -75,9 +76,23 @@ class Credit extends PaymentAbstract
                     $token  = $capturePaymentNotification->first();
                     if (!blank($token) && $order->id == $token->order_id) {
                         $user = User::find($order->user_id);
+
                         if ($user) {
-                            $user->balance = ($user->balance - $order->total);
+                            // Check if a balance record exists for the user and branch
+                            $balance = Balance::where('user_id', $user->id)
+                                ->where('order_id', $order->id)
+                                ->first();
+
+                            if ($balance) {
+                                // Update the balance
+                                $balance->balance -= $order->total;
+                                $balance->save();
+                            }
+
+
+                            $user->balance -= $order->total;
                             $user->save();
+
                             $this->paymentService->payment($order, 'credit', $token->token);
                             $capturePaymentNotification->delete();
                             $this->response = true;

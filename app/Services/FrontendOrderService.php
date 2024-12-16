@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Enums\PaymentStatus;
 use App\Events\SendOrderGotMail;
 use App\Events\SendOrderGotSms;
+use App\Models\Balance;
 use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\User;
@@ -175,7 +176,18 @@ class FrontendOrderService
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
-                    $user->balance = ($user->balance + $totalPrice);
+                    // Check if a balance record exists for the user and branch
+                    $balance = Balance::firstOrCreate(
+                        ['user_id' => $user->id, 'branch_id' => $this->frontendOrder->id],
+                        ['balance' => 0, 'order_id' => $this->frontendOrder->id]
+                    );
+
+                    // Update the balance in the Balance model
+                    $balance->balance += $totalPrice;
+                    $balance->save();
+
+                    // Update the user's balance
+                    $user->balance += $totalPrice;
                     $user->save();
                 }
 
