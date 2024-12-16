@@ -173,12 +173,13 @@ class FrontendOrderService
                 $this->frontendOrder->total_tax += $totalTax;
                 $this->frontendOrder->status = OrderStatus::PENDING;
                 $this->frontendOrder->save();
+                $branchId = $request->branch_id;
 
                 $user = User::find(Auth::user()->id);
                 if ($user) {
                     // Check if a balance record exists for the user and branch
                     $balance = Balance::firstOrCreate(
-                        ['user_id' => $user->id, 'branch_id' => $request->branch_id],
+                        ['user_id' => $user->id, 'branch_id' => $branchId],
                         ['balance' => 0, 'order_id' => $this->frontendOrder->id]
                     );
 

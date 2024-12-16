@@ -516,7 +516,7 @@ class OrderService
                 if ($user) {
                     // Check if a balance record exists for the user and branch
                     $balance = Balance::firstOrCreate(
-                        ['user_id' => $user->id, 'branch_id' => $this->order->id],
+                        ['user_id' => $user->id, 'branch_id' => $branchId],
                         ['balance' => 0, 'order_id' => $this->order->id]
                     );
 
