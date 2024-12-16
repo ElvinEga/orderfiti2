@@ -37,16 +37,14 @@ class ProfileController extends Controller
         try {
             $branchId = (int)$request->query('branch_id');
             $user =auth()->user();
-            $balance = Balance::where('user_id', $user->id)
-                ->where('branch_id', $branchId)
-                ->first();
+            $balance = Balance::where(['user_id'=> $user->id,'branch_id'=> $branchId])->first();
 
             if (!$balance) {
                 return response([
                     'data' => [
                         'user_id' => $user->id,
                         'branch_id' => $branchId,
-                        'balance' => 0,
+                        'balance' => AppLibrary::flatAmountFormat(0),
                     ]
                 ], 200);
             }
