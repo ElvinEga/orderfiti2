@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 
+use App\Models\Balance;
 use Illuminate\Http\Request;
 use App\Services\ProfileService;
 use App\Http\Controllers\Controller;
@@ -25,6 +26,37 @@ class ProfileController extends Controller
     {
         try {
             return  new UserResource(auth()->user());
+        } catch (\Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
+    public function balance(Request $request) : \Illuminate\Http\Response | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+    {
+        try {
+            $branchId = $request->query('branch_id');
+            $user =auth()->user();
+            $balance = Balance::where('user_id', $user->id)
+                ->where('branch_id', $branchId)
+                ->first();
+
+            if (!$balance) {
+                return response([
+                    'data' => [
+                        'user_id' => $user->id,
+                        'branch_id' => $branchId,
+                        'balance' => 0,
+                    ]
+                ], 200);
+            }
+            // Return the balance as JSON
+            return response([
+                'data' => [
+                    'user_id' => $user->id,
+                    'branch_id' => $branchId,
+                    'balance' => $balance->balance,
+                ]
+            ], 200);
         } catch (\Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
