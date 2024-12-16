@@ -72,10 +72,10 @@
             </button>
         </form>
 
-        <button type="button" onclick="window.history.back()"
+        <a type="button" href="{{ route('home') }}"
                 class="py-3 w-full mt-6 rounded-3xl text-center text-base font-medium bg-primary text-white">
             Payment Done
-        </button>
+        </a>
     </div>
 
 
